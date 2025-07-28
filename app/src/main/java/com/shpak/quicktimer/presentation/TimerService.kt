@@ -46,7 +46,7 @@ class TimerService : Service(), TimerListener {
     }
 
     private val notificationController by lazyTryOrNull {
-        NotificationController(applicationContext)
+        QuickTimerNotificationController(applicationContext)
     }
 
     private val notificationButtonPause by lazyTryOrNull {

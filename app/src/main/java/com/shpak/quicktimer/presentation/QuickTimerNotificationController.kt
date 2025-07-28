@@ -7,7 +7,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.shpak.quicktimer.R
 
-class NotificationController(private val context: Context) {
+class QuickTimerNotificationController(private val context: Context) {
 
     private val notificationManager = context.getSystemService(NotificationManager::class.java)
 

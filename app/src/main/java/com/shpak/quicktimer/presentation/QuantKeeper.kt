@@ -32,7 +32,7 @@ class QuantKeeper : Service() {
     }
 
     private val notificationController by lazyTryOrNull {
-        NotificationController(applicationContext)
+        QuickTimerNotificationController(applicationContext)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
