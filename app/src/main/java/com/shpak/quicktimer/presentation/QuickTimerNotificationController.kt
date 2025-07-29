@@ -16,8 +16,10 @@ class QuickTimerNotificationController(private val context: Context) {
             .Builder(context, context.getString(R.string.notification_channel_id))
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_timer)
-            .setPriority(NotificationManager.IMPORTANCE_MIN)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setCategory(Notification.CATEGORY_SERVICE)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOnlyAlertOnce(true)
 
     init {
         createNotificationChannel()
@@ -39,12 +41,14 @@ class QuickTimerNotificationController(private val context: Context) {
     }
 
     private fun createNotificationChannel() {
-        NotificationChannel(
-            context.getString(R.string.notification_channel_id),
-            context.getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_MIN
-        ).apply {
-            notificationManager?.createNotificationChannel(this)
-        }
+        notificationManager?.createNotificationChannel(
+            NotificationChannel(
+                context.getString(R.string.notification_channel_id),
+                context.getString(R.string.notification_channel_name),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            }
+        )
     }
 }
