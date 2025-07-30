@@ -29,3 +29,4 @@ Meet Quick Timer – a minimalistic Android app that requires exactly Zero Activ
 ## Download
 
 [<img src="https://github.com/user-attachments/assets/fdcf14f1-ad28-485c-a143-aa37a53ebfdc" height="100">](https://play.google.com/store/apps/details?id=com.shpak.quicktimer)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="100">](https://apt.izzysoft.de/packages/com.shpak.quicktimer)
