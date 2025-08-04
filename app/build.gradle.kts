@@ -11,8 +11,8 @@ android {
         applicationId = "com.shpak.quicktimer"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.0.0"
+        versionCode = 7
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
