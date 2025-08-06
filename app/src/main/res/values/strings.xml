@@ -19,7 +19,7 @@
 
     <!--  Notifications  -->
     <string name="notification_channel_name">Quick Timer Notifications</string>
-    <string name="notification_channel_id">QUICK_TIMER_NOTIFICATION_CHANNEL</string>
+    <string name="notification_channel_id" translatable="false">MAIN_NOTIFICATION_CHANNEL</string>
     <string name="notification_button_cancel">Cancel</string>
     <string name="notification_button_pause">Pause</string>
     <string name="notification_button_resume">Resume</string>
