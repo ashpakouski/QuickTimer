@@ -12,7 +12,6 @@ class TimerTileViewController : TileService() {
     private var permissionRequestDialog: Dialog? = null
     private var timerSettingsDialog: Dialog? = null
 
-    /*
     override fun onTileAdded() {
         super.onTileAdded()
 
@@ -24,7 +23,6 @@ class TimerTileViewController : TileService() {
 
         setInactive()
     }
-     */
 
     override fun onClick() {
         super.onClick()
@@ -58,10 +56,10 @@ class TimerTileViewController : TileService() {
         }
     }
 
-    /*
     private fun setInactive() {
-        qsTile.state = Tile.STATE_INACTIVE
-        qsTile.updateTile()
+        qsTile?.apply {
+            state = Tile.STATE_INACTIVE
+            updateTile()
+        }
     }
-     */
 }
