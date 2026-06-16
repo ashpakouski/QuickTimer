@@ -1,11 +1,12 @@
 package com.shpak.quicktimer.di
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotSame
-import org.junit.Assert.assertSame
-import org.junit.Assert.assertThrows
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import java.util.Collections
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -18,6 +19,11 @@ class HubTest {
     private class Service
     private class TrackedInstance(val creationIndex: Int)
     private class NeverRegistered
+
+    @AfterEach
+    fun tearDown() {
+        Hub.clear()
+    }
 
     @Test
     fun `addInstance returns the same instance every time`() {
@@ -96,6 +102,32 @@ class HubTest {
         Hub.addInstance(second)
 
         assertSame(second, Hub.get<Service>())
+    }
+
+    @Test
+    fun `remove drops a single registration and leaves the others intact`() {
+        val service = Service()
+        val dependency = DependencyImpl()
+        Hub.addInstance(service)
+        Hub.addInstance<Dependency>(dependency)
+
+        Hub.remove<Service>()
+
+        assertSame(dependency, Hub.get<Dependency>())
+        assertThrows(IllegalStateException::class.java) {
+            Hub.get<Service>()
+        }
+    }
+
+    @Test
+    fun `clear removes every registration`() {
+        Hub.addInstance(Service())
+        Hub.addInstance<Dependency>(DependencyImpl())
+
+        Hub.clear()
+
+        assertThrows(IllegalStateException::class.java) { Hub.get<Service>() }
+        assertThrows(IllegalStateException::class.java) { Hub.get<Dependency>() }
     }
 
     @Test

@@ -34,6 +34,19 @@ object Hub {
         return (entry as Entry<T>).resolve()
     }
 
+    inline fun <reified T : Any> remove() = remove(T::class.java)
+    fun remove(type: Class<*>) {
+        synchronized(lock) {
+            registry.remove(type)
+        }
+    }
+
+    fun clear() {
+        synchronized(lock) {
+            registry.clear()
+        }
+    }
+
     private sealed class Entry<T> {
         class Instance<T>(val instance: T) : Entry<T>()
         class Factory<T>(val provide: () -> T) : Entry<T>()
