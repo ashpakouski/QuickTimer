@@ -8,10 +8,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.core.content.ContextCompat
 
-class SystemTimer(
+class TimerCompletionScheduler(
     private val context: Context,
-    private val onTimeOver: () -> Unit
-) : TimerToggle {
+    private val onReached: () -> Unit
+) {
     companion object {
         private const val INTENT_ACTION_ALARM = "action_alarm"
         private const val PENDING_INTENT_REQUEST_CODE = 3
@@ -32,20 +32,7 @@ class SystemTimer(
         }
     }
 
-    override fun start(durationMillis: Long) {
-        registerSystemAlarm(durationMillis)
-    }
-
-    override fun cancel() {
-        unregisterSystemAlarm()
-    }
-
-    private fun onAlarm() {
-        unregisterSystemAlarm()
-        onTimeOver()
-    }
-
-    private fun registerSystemAlarm(durationMillis: Long) {
+    fun schedule(durationMillis: Long) {
         registerAlarmReceiver()
 
         alarmPendingIntent?.let { pendingIntent ->
@@ -57,12 +44,17 @@ class SystemTimer(
         }
     }
 
-    private fun unregisterSystemAlarm() {
+    fun cancel() {
         unregisterAlarmReceiver()
 
         alarmPendingIntent?.let { pendingIntent ->
             alarmManager?.cancel(pendingIntent)
         }
+    }
+
+    private fun onAlarm() {
+        cancel()
+        onReached()
     }
 
     private fun registerAlarmReceiver() {

@@ -6,10 +6,32 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.shpak.quicktimer.R
+import com.shpak.quicktimer.domain.timer.TimerState
+import com.shpak.quicktimer.util.getNotificationButton
+import com.shpak.quicktimer.util.toHhMmSs
 
-class QuickTimerNotificationController(private val context: Context) {
+class QuickTimerNotificationController(
+    private val context: Context
+) {
+    companion object {
+        const val NOTIFICATION_ID = 7
+
+        const val ACTION_PAUSE = "action_pause"
+        const val ACTION_RESUME = "action_resume"
+        const val ACTION_CANCEL = "action_cancel"
+    }
 
     private val notificationManager = context.getSystemService(NotificationManager::class.java)
+
+    private val pauseButton by lazy {
+        getNotificationButton(context, ACTION_PAUSE, R.string.notification_button_pause)
+    }
+    private val resumeButton by lazy {
+        getNotificationButton(context, ACTION_RESUME, R.string.notification_button_resume)
+    }
+    private val cancelButton by lazy {
+        getNotificationButton(context, ACTION_CANCEL, R.string.notification_button_cancel)
+    }
 
     private val baseNotificationBuilder: NotificationCompat.Builder
         get() = NotificationCompat
@@ -32,12 +54,27 @@ class QuickTimerNotificationController(private val context: Context) {
         actions.forEach(::addAction)
     }.build()
 
-    fun postNotification(
-        notificationId: Int,
+    fun render(state: TimerState) {
+        when (state) {
+            is TimerState.Running -> post(
+                state.remainingMillis.toHhMmSs(), listOf(cancelButton, pauseButton)
+            )
+
+            is TimerState.Paused -> post(
+                state.remainingMillis.toHhMmSs(), listOf(cancelButton, resumeButton)
+            )
+
+            TimerState.Finished -> post(0L.toHhMmSs())
+
+            TimerState.Idle -> Unit
+        }
+    }
+
+    private fun post(
         message: String,
         actions: List<NotificationCompat.Action> = emptyList()
     ) {
-        notificationManager.notify(notificationId, getNotification(message, actions))
+        notificationManager.notify(NOTIFICATION_ID, getNotification(message, actions))
     }
 
     private fun createNotificationChannel() {
