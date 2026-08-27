@@ -1,4 +1,6 @@
 <resources>
 
+    <style name="Theme.QuickTimer" parent="android:Theme.Material.Light.NoActionBar" />
+
     <style name="NumberPickerStyle" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>
