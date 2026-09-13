@@ -1,4 +1,4 @@
-package com.shpak.quicktimer.domain
+package com.shpak.quicktimer.domain.repository
 
 sealed interface TimerState {
     data object Idle : TimerState

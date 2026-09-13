@@ -3,9 +3,11 @@ package com.shpak.quicktimer.ui.timer
 import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shpak.quicktimer.domain.TimerEvent
-import com.shpak.quicktimer.domain.TimerReducer
-import com.shpak.quicktimer.domain.TimerState
+import com.shpak.quicktimer.di.Hub
+import com.shpak.quicktimer.domain.store.TimerStore
+import com.shpak.quicktimer.domain.repository.TimerEvent
+//import com.shpak.quicktimer.domain.repository.TimerReducer
+import com.shpak.quicktimer.domain.repository.TimerState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,19 +16,27 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class TimerViewModel : ViewModel() {
-    private val _state = MutableStateFlow<TimerState>(TimerState.Idle)
-    val state = _state.asStateFlow()
-
+class TimerViewModel(
+    private val timerStore: TimerStore = Hub.get<TimerStore>()
+) : ViewModel() {
     private val _remainingMillis = MutableStateFlow(0L)
     val remainingMillis = _remainingMillis.asStateFlow()
 
     private var timerJob: Job? = null
 
+    init {
+        viewModelScope.launch {
+            timerStore.observeGlobalTimer().collect { timerState ->
+                onStateChanged(timerState)
+            }
+        }
+    }
+
     fun onEvent(event: TimerEvent) {
-        val newState = TimerReducer.reduce(_state.value, event, nowMillis())
-        _state.value = newState
-        onStateChanged(newState)
+        timerStore.onEvent(event)
+//        val newState = TimerReducer.reduce(_state.value, event, nowMillis())
+//        _state.value = newState
+//        onStateChanged(newState)
     }
 
     private fun onStateChanged(state: TimerState) {
@@ -36,6 +46,7 @@ class TimerViewModel : ViewModel() {
         when (state) {
             is TimerState.Running -> {
                 timerJob = viewModelScope.launch {
+//                viewModelScope.launch {
                     while (isActive) {
                         val remainingMillis = state.remainingMillis()
                         _remainingMillis.value = remainingMillis
