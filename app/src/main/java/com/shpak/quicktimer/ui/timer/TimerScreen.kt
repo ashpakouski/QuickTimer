@@ -13,9 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shpak.quicktimer.domain.repository.DismissMode
-import com.shpak.quicktimer.domain.repository.TimerEvent
-import com.shpak.quicktimer.domain.repository.TimerSettings
+import com.shpak.timer.core.redux.DismissMode
+import com.shpak.timer.core.redux.TimerEvent
+import com.shpak.timer.core.redux.TimerSettings
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel) {

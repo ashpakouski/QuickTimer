@@ -1,10 +1,10 @@
 package com.shpak.quicktimer.data.store
 
 import android.os.SystemClock
-import com.shpak.quicktimer.domain.store.TimerStore
-import com.shpak.quicktimer.domain.repository.TimerEvent
-import com.shpak.quicktimer.domain.repository.TimerReducer
-import com.shpak.quicktimer.domain.repository.TimerState
+import com.shpak.timer.core.redux.TimerEvent
+import com.shpak.timer.core.store.TimerStore
+import com.shpak.timer.core.redux.TimerReducer
+import com.shpak.timer.core.redux.TimerState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

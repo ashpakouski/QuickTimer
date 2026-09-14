@@ -1,4 +1,4 @@
-package com.shpak.quicktimer.domain.repository
+package com.shpak.timer.core.redux
 
 object TimerReducer {
     fun reduce(

@@ -4,10 +4,9 @@ import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shpak.quicktimer.di.Hub
-import com.shpak.quicktimer.domain.store.TimerStore
-import com.shpak.quicktimer.domain.repository.TimerEvent
-//import com.shpak.quicktimer.domain.repository.TimerReducer
-import com.shpak.quicktimer.domain.repository.TimerState
+import com.shpak.timer.core.redux.TimerEvent
+import com.shpak.timer.core.store.TimerStore
+import com.shpak.timer.core.redux.TimerState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.shpak.quicktimer.domain.repository
+package com.shpak.timer.core.redux
 
 sealed interface TimerEvent {
     data class Start(
