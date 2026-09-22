@@ -1,4 +1,4 @@
-package com.shpak.timer.core.redux
+package com.shpak.timer.core
 
 sealed interface TimerEvent {
     data class Start(

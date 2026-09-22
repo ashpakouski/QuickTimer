@@ -1,4 +1,4 @@
-package com.shpak.timer.core.redux
+package com.shpak.timer.core
 
 data class TimerSettings(
     val dismissMode: DismissMode

@@ -1,6 +1,6 @@
-package com.shpak.timer.core.redux
+package com.shpak.timer.core
 
-object TimerReducer {
+internal object TimerReducer {
     fun reduce(
         state: TimerState,
         event: TimerEvent,
