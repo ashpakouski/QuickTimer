@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
-    // implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.android)
     // implementation(libs.androidx.lifecycle.service)
 
     testImplementation(platform(libs.junit.bom))

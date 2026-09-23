@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-internal class DefaultTimerStore(
+class DefaultTimerStore(
     private val clock: TimerClock
 ) : TimerStore {
     private val _state = MutableStateFlow<TimerState>(TimerState.Idle)

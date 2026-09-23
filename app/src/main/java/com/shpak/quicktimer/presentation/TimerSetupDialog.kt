@@ -3,9 +3,17 @@ package com.shpak.quicktimer.presentation
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
+import com.shpak.quicktimer.R
 import com.shpak.quicktimer.data.MediaVolumeTracker
 import com.shpak.quicktimer.databinding.TimerSettingsDialogBinding
+import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.util.HapticsCompat
+import com.shpak.timer.core.DismissMode
+import com.shpak.timer.core.TimerEvent
+import com.shpak.timer.core.TimerSettings
+import com.shpak.timer.core.TimerState
+import com.shpak.timer.core.TimerStore
 
 class TimerSetupDialog(context: Context) : CustomDialog(context) {
 
@@ -15,6 +23,7 @@ class TimerSetupDialog(context: Context) : CustomDialog(context) {
 
     private val volumeTracker = MediaVolumeTracker(context, ::onVolumeFractionChange)
     private val haptics = HapticsCompat(context)
+    private val timerStore = Hub.get<TimerStore>()
 
     private val binding = TimerSettingsDialogBinding.inflate(
         LayoutInflater.from(context), null, false
@@ -56,7 +65,21 @@ class TimerSetupDialog(context: Context) : CustomDialog(context) {
     }
 
     private fun onButtonPositiveClick() {
-        TimerService.start(context, currentSelectionMillis)
+        if (timerStore.state.value is TimerState.Idle) {
+            timerStore.dispatch(
+                TimerEvent.Start(
+                    durationMillis = currentSelectionMillis,
+                    settings = TimerSettings(
+                        dismissMode = DismissMode.AUTOMATIC
+                    )
+                )
+            )
+        } else {
+            Toast.makeText(
+                context, R.string.error_timer_is_already_running, Toast.LENGTH_LONG
+            ).show()
+        }
+
         dismiss()
     }
 

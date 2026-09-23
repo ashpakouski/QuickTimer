@@ -9,5 +9,6 @@ sealed interface TimerEvent {
     data object Pause : TimerEvent
     data object Resume : TimerEvent
     data object TimeUp : TimerEvent
+    data object Dismiss : TimerEvent
     data object Stop : TimerEvent
 }
