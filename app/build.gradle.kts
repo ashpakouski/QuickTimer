@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(project(":timer:android"))
+    implementation(project(":core:designsystem"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

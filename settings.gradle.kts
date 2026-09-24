@@ -16,5 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Quick Timer"
 include(":app")
+include(":core:designsystem")
 include(":timer:core")
 include(":timer:android")
