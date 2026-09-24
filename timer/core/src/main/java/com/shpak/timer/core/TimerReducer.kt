@@ -1,6 +1,6 @@
-package com.shpak.quicktimer.domain
+package com.shpak.timer.core
 
-object TimerReducer {
+internal object TimerReducer {
     fun reduce(
         state: TimerState,
         event: TimerEvent,
@@ -29,16 +29,17 @@ object TimerReducer {
             state
         }
 
-        TimerEvent.TimeUp ->
-            if (state is TimerState.Running) {
-                if (state.settings.dismissMode == DismissMode.MANUAL) {
-                    TimerState.Ringing(state.settings)
-                } else {
-                    TimerState.Idle
-                }
-            } else {
-                state
-            }
+        TimerEvent.TimeUp -> if (state is TimerState.Running && nowMillis >= state.endTimeMillis) {
+            TimerState.Ringing(state.settings)
+        } else {
+            state
+        }
+
+        TimerEvent.Dismiss -> if (state is TimerState.Ringing) {
+            TimerState.Idle
+        }else {
+            state
+        }
 
         TimerEvent.Stop -> TimerState.Idle
     }

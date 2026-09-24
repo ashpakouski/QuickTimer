@@ -13,18 +13,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shpak.quicktimer.domain.DismissMode
-import com.shpak.quicktimer.domain.TimerEvent
-import com.shpak.quicktimer.domain.TimerSettings
-import com.shpak.quicktimer.domain.TimerState
+import com.shpak.timer.core.DismissMode
+import com.shpak.timer.core.TimerEvent
+import com.shpak.timer.core.TimerSettings
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel) {
-    val state by viewModel.state.collectAsState()
+    // val state by viewModel.state.collectAsState()
     val remainingMillis by viewModel.remainingMillis.collectAsState()
 
     TimerScreen(
-        state = state,
+        // state = state,
         remainingMillis = remainingMillis,
         onEvent = viewModel::onEvent
     )
@@ -32,7 +31,7 @@ fun TimerScreen(viewModel: TimerViewModel) {
 
 @Composable
 private fun TimerScreen(
-    state: TimerState,
+    // state: TimerState,
     remainingMillis: Long,
     onEvent: (TimerEvent) -> Unit
 ) {
@@ -48,9 +47,9 @@ private fun TimerScreen(
                 text = "$remainingMillis"
             )
 
-            Text(
-                text = "$state"
-            )
+//            Text(
+//                text = "$state"
+//            )
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -93,7 +92,7 @@ private fun TimerScreen(
                     onClick = {
                         onEvent(TimerEvent.Pause)
                     },
-                    enabled = state is TimerState.Running
+                    enabled = true // state is TimerState.Running
                 ) {
                     Text("Pause")
                 }
@@ -102,7 +101,7 @@ private fun TimerScreen(
                     onClick = {
                         onEvent(TimerEvent.Resume)
                     },
-                    enabled = state is TimerState.Paused
+                    enabled = true // state is TimerState.Paused
                 ) {
                     Text("Resume")
                 }
@@ -111,7 +110,7 @@ private fun TimerScreen(
                     onClick = {
                         onEvent(TimerEvent.Stop)
                     },
-                    enabled = state !is TimerState.Idle
+                    enabled = true // state !is TimerState.Idle
                 ) {
                     Text("Stop")
                 }

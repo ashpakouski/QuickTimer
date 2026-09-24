@@ -1,38 +1,52 @@
 package com.shpak.quicktimer.presentation
 
+import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.IBinder
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.annotation.StringRes
+import androidx.core.app.NotificationCompat
 import com.shpak.quicktimer.R
-import com.shpak.quicktimer.data.timer.SingleUseCountdownTimer
-import com.shpak.quicktimer.data.timer.TimerListener
-import com.shpak.quicktimer.util.Debouncer
-import com.shpak.quicktimer.util.getNotificationButton
+import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.util.lazyTryOrNull
 import com.shpak.quicktimer.util.playSound
 import com.shpak.quicktimer.util.toHhMmSs
+import com.shpak.timer.android.AndroidTimerClock
+import com.shpak.timer.core.Countdown
+import com.shpak.timer.core.DismissMode
+import com.shpak.timer.core.TimerEvent
+import com.shpak.timer.core.TimerState
+import com.shpak.timer.core.TimerStore
+import com.shpak.timer.core.countdown
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class TimerService : Service(), TimerListener {
+class TimerService : Service() {
     companion object {
-        private const val ACTION_PAUSE = "action_pause"
-        private const val ACTION_RESUME = "action_resume"
-        private const val ACTION_CANCEL = "action_cancel"
-
-        private const val KEY_TIME_MILLIS = "time_millis"
+        private const val ACTION_PAUSE = "com.shpak.quicktimer.action.PAUSE"
+        private const val ACTION_RESUME = "com.shpak.quicktimer.action.RESUME"
+        private const val ACTION_STOP = "com.shpak.quicktimer.action.STOP"
+        private const val ACTION_DISMISS = "com.shpak.quicktimer.action.DISMISS"
 
         private const val NOTIFICATION_ID = 7
 
-        fun start(context: Context, timeMillis: Long) {
-            val startIntent = Intent(context, TimerService::class.java)
-            startIntent.putExtra(KEY_TIME_MILLIS, timeMillis)
+        fun runWithActiveTimer(context: Context, store: TimerStore, scope: CoroutineScope): Job =
+            scope.launch {
+                store.state.collect { state ->
+                    if (state !is TimerState.Idle) {
+                        start(context)
+                    }
+                }
+            }
 
+        private fun start(context: Context) {
             try {
-                context.startForegroundService(startIntent)
+                context.startForegroundService(Intent(context, TimerService::class.java))
             } catch (_: Exception) {
                 Toast.makeText(
                     context, R.string.error_cant_start_timer_service, Toast.LENGTH_SHORT
@@ -41,63 +55,30 @@ class TimerService : Service(), TimerListener {
         }
     }
 
-    private val timer by lazyTryOrNull {
-        SingleUseCountdownTimer(this, applicationContext)
-    }
+    private val timerStore by lazy { Hub.get<TimerStore>() }
+    private val serviceScope = MainScope()
 
     private val notificationController by lazyTryOrNull {
         QuickTimerNotificationController(applicationContext)
     }
 
-    private val notificationButtonPause by lazyTryOrNull {
-        getNotificationButton(
-            applicationContext, ACTION_PAUSE, R.string.notification_button_pause
-        )
+    private val pauseButton by lazyTryOrNull {
+        notificationButton(ACTION_PAUSE, R.string.notification_button_pause)
     }
 
-    private val notificationButtonResume by lazyTryOrNull {
-        getNotificationButton(
-            applicationContext, ACTION_RESUME, R.string.notification_button_resume
-        )
+    private val resumeButton by lazyTryOrNull {
+        notificationButton(ACTION_RESUME, R.string.notification_button_resume)
     }
 
-    private val notificationButtonCancel by lazyTryOrNull {
-        getNotificationButton(
-            applicationContext, ACTION_CANCEL, R.string.notification_button_cancel
-        )
+    private val cancelButton by lazyTryOrNull {
+        notificationButton(ACTION_STOP, R.string.notification_button_cancel)
     }
 
-    private val buttonClickReceiver = object : BroadcastReceiver() {
-        private val pauseResumeDebouncer = Debouncer(1000L)
-
-        override fun onReceive(context: Context, intent: Intent) {
-            when (intent.action) {
-                ACTION_PAUSE -> pauseResumeDebouncer.call { onPauseRequested() }
-                ACTION_RESUME -> pauseResumeDebouncer.call { timer?.resume() }
-                ACTION_CANCEL -> onCancellationRequested()
-            }
-        }
+    private val dismissButton by lazyTryOrNull {
+        notificationButton(ACTION_DISMISS, R.string.notification_button_dismiss)
     }
 
-    private fun onPauseRequested() {
-        val timer = timer ?: return
-        val millisLeft = timer.millisLeft
-
-        timer.pause()
-
-        notificationController?.postNotification(
-            NOTIFICATION_ID, millisLeft.toHhMmSs(),
-            actions = listOfNotNull(
-                notificationButtonCancel, notificationButtonResume
-            )
-        )
-    }
-
-    private fun onCancellationRequested() {
-        timer?.cancel()
-        unregisterButtonClickReceiver()
-        stopSelf()
-    }
+    private var renderedState: TimerState? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -106,70 +87,94 @@ class TimerService : Service(), TimerListener {
             startForeground(NOTIFICATION_ID, it)
         }
 
-        registerButtonClickReceiver()
+        serviceScope.launch {
+            timerStore.countdown(AndroidTimerClock).collect(::render)
+        }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_PAUSE -> timerStore.dispatch(TimerEvent.Pause)
+            ACTION_RESUME -> timerStore.dispatch(TimerEvent.Resume)
+            ACTION_STOP -> timerStore.dispatch(TimerEvent.Stop)
+            ACTION_DISMISS -> timerStore.dispatch(TimerEvent.Dismiss)
+        }
+
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {
-        unregisterButtonClickReceiver()
-        timer?.cancel()
+        serviceScope.cancel()
 
         super.onDestroy()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (timer?.isRunning == false) {
-            val durationMillis = intent?.getLongExtra(KEY_TIME_MILLIS, 0L) ?: 0
-            timer?.start(
-                durationMillis = durationMillis
-            )
-        } else {
-            Toast.makeText(
-                applicationContext, R.string.error_timer_is_already_running, Toast.LENGTH_LONG
-            ).show()
-        }
-
-        return START_STICKY
-    }
-
-    override fun onTick() {
-        val timer = timer ?: return
-
-        notificationController?.postNotification(
-            NOTIFICATION_ID, timer.millisLeft.toHhMmSs(),
-            actions = listOfNotNull(
-                notificationButtonCancel, notificationButtonPause
-            )
-        )
-    }
-
-    override fun onTimeOver() {
-        notificationController?.postNotification(
-            NOTIFICATION_ID, (0L).toHhMmSs()
-        )
-
-        playSound(applicationContext, R.raw.double_ping, onComplete = ::stopSelf)
-    }
-
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun registerButtonClickReceiver() {
-        ContextCompat.registerReceiver(
-            applicationContext,
-            buttonClickReceiver,
-            IntentFilter().apply {
-                addAction(ACTION_PAUSE)
-                addAction(ACTION_RESUME)
-                addAction(ACTION_CANCEL)
-            },
-            ContextCompat.RECEIVER_NOT_EXPORTED
+    private fun render(countdown: Countdown) {
+        val state = countdown.state
+        val time = countdown.remainingMillis.toHhMmSs()
+
+        when (state) {
+            TimerState.Idle -> {
+                stopForeground(STOP_FOREGROUND_REMOVE)
+                stopSelf()
+            }
+
+            is TimerState.Running -> postNotification(
+                message = time,
+                actions = listOfNotNull(cancelButton, pauseButton)
+            )
+
+            is TimerState.Paused -> postNotification(
+                message = time,
+                actions = listOfNotNull(cancelButton, resumeButton)
+            )
+
+            is TimerState.Ringing -> {
+                val isManual = state.settings.dismissMode == DismissMode.MANUAL
+
+                postNotification(
+                    message = time,
+                    actions = if (isManual) {
+                        listOfNotNull(dismissButton)
+                    } else {
+                        emptyList()
+                    }
+                )
+
+                if (renderedState !is TimerState.Ringing) {
+                    ring()
+                }
+            }
+        }
+
+        renderedState = state
+    }
+
+    private fun postNotification(message: String, actions: List<NotificationCompat.Action>) {
+        notificationController?.postNotification(
+            NOTIFICATION_ID, message, actions
         )
     }
 
-    private fun unregisterButtonClickReceiver() {
+    private fun ring() {
         try {
-            applicationContext.unregisterReceiver(buttonClickReceiver)
+            playSound(applicationContext, R.raw.double_ping)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
+    private fun notificationButton(action: String, @StringRes titleId: Int) =
+        NotificationCompat.Action(
+            0,
+            getString(titleId),
+            PendingIntent.getForegroundService(
+                this,
+                0,
+                Intent(this, TimerService::class.java).setAction(action),
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        )
 }

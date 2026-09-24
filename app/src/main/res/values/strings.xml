@@ -23,6 +23,7 @@
     <string name="notification_button_cancel">Cancel</string>
     <string name="notification_button_pause">Pause</string>
     <string name="notification_button_resume">Resume</string>
+    <string name="notification_button_dismiss">Dismiss</string>
 
     <!--  Errors and Warnings  -->
     <string name="warning_volume_low">Your media volume is low. You might not hear the alarm.</string>

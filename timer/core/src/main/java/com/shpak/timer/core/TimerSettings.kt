@@ -1,4 +1,4 @@
-package com.shpak.quicktimer.domain
+package com.shpak.timer.core
 
 data class TimerSettings(
     val dismissMode: DismissMode
