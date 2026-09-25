@@ -24,10 +24,13 @@ import com.shpak.timer.core.TimerSettings
 fun TimerScreen(viewModel: TimerViewModel) {
     // val state by viewModel.state.collectAsState()
     val remainingMillis by viewModel.remainingMillis.collectAsState()
+    val setup by viewModel.setup.collectAsState()
 
     TimerScreen(
         // state = state,
         remainingMillis = remainingMillis,
+        setup = setup,
+        onSetupChange = viewModel::onSetupChange,
         onEvent = viewModel::onEvent
     )
 }
@@ -36,6 +39,8 @@ fun TimerScreen(viewModel: TimerViewModel) {
 private fun TimerScreen(
     // state: TimerState,
     remainingMillis: Long,
+    setup: TimerSetup,
+    onSetupChange: ((TimerSetup) -> TimerSetup) -> Unit,
     onEvent: (TimerEvent) -> Unit
 ) {
     Box(
@@ -51,23 +56,35 @@ private fun TimerScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 NumberPicker(
-                    value = 2,
-                    onValueChange = {},
-                    range = 1..1000,
+                    value = setup.hours,
+                    onValueChange = { hours ->
+                        onSetupChange { setup ->
+                            setup.copy(hours = hours)
+                        }
+                    },
+                    range = TimerSetup.HoursRange,
                     modifier = Modifier.width(100.dp)
                 )
 
                 NumberPicker(
-                    value = 20,
-                    onValueChange = {},
-                    range = 1..100,
+                    value = setup.minutes,
+                    onValueChange = { minutes ->
+                        onSetupChange { setup ->
+                            setup.copy(minutes = minutes)
+                        }
+                    },
+                    range = TimerSetup.MinutesRange,
                     modifier = Modifier.width(100.dp)
                 )
 
                 NumberPicker(
-                    value = 10,
-                    onValueChange = {},
-                    range = 1..50,
+                    value = setup.seconds,
+                    onValueChange = { seconds ->
+                        onSetupChange { setup ->
+                            setup.copy(seconds = seconds)
+                        }
+                    },
+                    range = TimerSetup.SecondsRange,
                     modifier = Modifier.width(100.dp)
                 )
             }
@@ -87,30 +104,32 @@ private fun TimerScreen(
                     onClick = {
                         onEvent(
                             TimerEvent.Start(
-                                durationMillis = 15000L,
+                                durationMillis = setup.durationMillis,
                                 settings = TimerSettings(
                                     dismissMode = DismissMode.AUTOMATIC
                                 )
                             )
                         )
-                    }
+                    },
+                    enabled = setup.durationMillis > 0
                 ) {
-                    Text("15s auto")
+                    Text("Start auto")
                 }
 
                 Button(
                     onClick = {
                         onEvent(
                             TimerEvent.Start(
-                                durationMillis = 15000L,
+                                durationMillis = setup.durationMillis,
                                 settings = TimerSettings(
                                     dismissMode = DismissMode.MANUAL
                                 )
                             )
                         )
-                    }
+                    },
+                    enabled = setup.durationMillis > 0
                 ) {
-                    Text("15s manual")
+                    Text("Start manual")
                 }
             }
 
