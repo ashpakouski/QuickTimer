@@ -1,6 +1,11 @@
 package com.shpak.quicktimer.core.designsystem.component
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
@@ -22,12 +27,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
@@ -42,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.shpak.quicktimer.core.designsystem.theme.TimerTextStyles
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -52,24 +58,28 @@ fun NumberPicker(
     range: IntRange,
     modifier: Modifier = Modifier,
     colors: NumberPickerColors = NumberPickerDefaults.colors(),
-    rowHeight: Dp = 52.dp,
+    rowHeight: Dp = 64.dp,
     label: (Int) -> String = ::twoDigits
 ) {
     val valuesCount = range.last - range.first + 1
     val sideRowsCount = 2
     val visibleRows = sideRowsCount * 2 + 1
+    val totalCount = valuesCount * 1000
+    val startIndex = (totalCount / 2 / valuesCount) * valuesCount
     val state = rememberLazyListState(
-        initialFirstVisibleItemIndex = value - range.first
+        initialFirstVisibleItemIndex = startIndex + (value - range.first).coerceIn(0..<valuesCount)
     )
     val rowHeightPx = with(LocalDensity.current) {
         rowHeight.toPx()
     }
-    val centeredIndex by remember(state, rowHeightPx, valuesCount) {
-        derivedStateOf { state.centeredIndex(rowHeightPx, valuesCount) }
+    val centeredIndex by remember(state, rowHeightPx, totalCount) {
+        derivedStateOf { state.centeredIndex(rowHeightPx, totalCount) }
     }
     var isAutoscrolling by remember { mutableStateOf(false) }
     val currentValue by rememberUpdatedState(value)
     val currentOnValueChange by rememberUpdatedState(onValueChange)
+    val scope = rememberCoroutineScope()
+    val isDragged by state.interactionSource.collectIsDraggedAsState()
 
     LaunchedEffect(state, range) {
         snapshotFlow {
@@ -78,7 +88,7 @@ fun NumberPicker(
             .filterNotNull()
             .distinctUntilChanged()
             .collect { index ->
-                val selectedNumber = range.first + index
+                val selectedNumber = range.first + index % valuesCount
                 if (selectedNumber != currentValue) {
                     currentOnValueChange(selectedNumber)
                 }
@@ -86,31 +96,52 @@ fun NumberPicker(
     }
 
     LaunchedEffect(value, range) {
-        val targetIndex = (value - range.first).coerceIn(0..<valuesCount)
-        if (targetIndex != centeredIndex && !state.isScrollInProgress) {
+        val target = (value - range.first).coerceIn(0..<valuesCount)
+        val current = centeredIndex % valuesCount
+        if (target != current && !state.isScrollInProgress) {
+            var delta = target - current
+            if (delta > valuesCount / 2) {
+                delta -= valuesCount
+            }
+            if (delta < -valuesCount / 2) {
+                delta += valuesCount
+            }
             isAutoscrolling = true
             try {
-                state.animateScrollToItem(targetIndex)
+                state.animateScrollToItem((centeredIndex + delta).coerceIn(0..<totalCount))
             } finally {
                 isAutoscrolling = false
             }
         }
     }
 
-    val fadeFraction = 0.25f
+    val pillCorner by animateDpAsState(
+        targetValue = if (isDragged) 18.dp else 26.dp,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 500f),
+        label = "pillCorner"
+    )
+    val pillScale by animateFloatAsState(
+        targetValue = if (isDragged) 0.98f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 500f),
+        label = "pillScale"
+    )
+
+    val fadeFraction = 0.27f
     Box(
         modifier = modifier
             .height(rowHeight * visibleRows)
-            .clip(NumberPickerDefaults.Shape)
             .background(colors.containerColor)
     ) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth()
-                .height(rowHeight)
-                .padding(horizontal = 3.dp)
-                .clip(NumberPickerDefaults.SelectionShape)
+                .height(rowHeight + 10.dp)
+                .graphicsLayer {
+                    scaleX = pillScale
+                    scaleY = pillScale
+                }
+                .clip(RoundedCornerShape(pillCorner))
                 .background(colors.selectionColor)
         )
 
@@ -137,23 +168,32 @@ fun NumberPicker(
                     )
                 }
         ) {
-            items(
-                count = valuesCount,
-                key = { index -> index }
-            ) { index ->
-                val isSelected by remember(index) {
-                    derivedStateOf { index == centeredIndex }
+            items(count = totalCount) { index ->
+                val distance by remember(index) {
+                    derivedStateOf { abs(index - centeredIndex) }
                 }
+                val isSelected = distance == 0
 
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(rowHeight)
-                        .alpha(alphaForDistance(abs(index - centeredIndex)))
+                        .clickable(
+                            interactionSource = null,
+                            indication = null
+                        ) {
+                            scope.launch { state.animateScrollToItem(index - sideRowsCount) }
+                        }
+                        .graphicsLayer {
+                            alpha = alphaForDistance(distance)
+                            val scale = scaleForDistance(distance)
+                            scaleX = scale
+                            scaleY = scale
+                        }
                 ) {
                     Text(
-                        text = label(range.first + index),
+                        text = label(range.first + index % valuesCount),
                         color = if (isSelected) {
                             colors.selectedContentColor
                         } else {
@@ -186,9 +226,14 @@ private fun twoDigits(value: Int): String = value.toString().padStart(2, '0')
 
 private fun alphaForDistance(distanceIndices: Int): Float = when (distanceIndices) {
     0 -> 1f
-    1 -> 2 / 3f
-    2 -> 1 / 3f
-    else -> 1 / 6f
+    1 -> 0.65f
+    else -> 0.42f
+}
+
+private fun scaleForDistance(distanceIndices: Int): Float = when (distanceIndices) {
+    0 -> 1f
+    1 -> 0.92f
+    else -> 0.85f
 }
 
 @Immutable
@@ -200,12 +245,9 @@ data class NumberPickerColors(
 )
 
 object NumberPickerDefaults {
-    internal val Shape = RoundedCornerShape(26.dp)
-    internal val SelectionShape = RoundedCornerShape(16.dp)
-
     @Composable
     fun colors(
-        containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+        containerColor: Color = Color.Transparent,
         selectionColor: Color = MaterialTheme.colorScheme.primaryContainer,
         contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         selectedContentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,

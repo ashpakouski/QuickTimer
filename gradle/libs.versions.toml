@@ -6,6 +6,7 @@ appcompat = "1.8.0"
 material = "1.14.0"
 constraintlayout = "2.2.1"
 composeBom = "2026.08.00"
+material3 = "1.5.0-alpha29"
 junitBom = "5.11.4"
 kotlinxCoroutines = "1.10.2"
 
@@ -17,7 +18,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
