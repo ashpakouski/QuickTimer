@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.shpak.quicktimer.di.Hub
 import com.shpak.timer.android.AndroidTimerClock
 import com.shpak.timer.core.TimerEvent
+import com.shpak.timer.core.TimerState
 import com.shpak.timer.core.TimerStore
 import com.shpak.timer.core.countdown
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,8 @@ class TimerViewModel(
 ) : ViewModel() {
     private val _setup = MutableStateFlow(TimerSetup())
     val setup: StateFlow<TimerSetup> = _setup.asStateFlow()
+
+    val state: StateFlow<TimerState> = timerStore.state
 
     val remainingMillis: StateFlow<Long> = timerStore
         .countdown(
