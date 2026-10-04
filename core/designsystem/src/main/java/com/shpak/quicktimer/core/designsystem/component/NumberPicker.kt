@@ -278,7 +278,7 @@ data class NumberPickerColors(
     val containerColor: Color,
     val selectionColor: Color,
     val contentColor: Color,
-    val selectedContentColor: Color,
+    val selectedContentColor: Color
 )
 
 object NumberPickerDefaults {
@@ -287,12 +287,12 @@ object NumberPickerDefaults {
         containerColor: Color = Color.Transparent,
         selectionColor: Color = MaterialTheme.colorScheme.primaryContainer,
         contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-        selectedContentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+        selectedContentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
     ): NumberPickerColors = NumberPickerColors(
         containerColor = containerColor,
         selectionColor = selectionColor,
         contentColor = contentColor,
-        selectedContentColor = selectedContentColor,
+        selectedContentColor = selectedContentColor
     )
 }
 

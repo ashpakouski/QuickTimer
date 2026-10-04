@@ -1,6 +1,5 @@
 package com.shpak.quicktimer.core.designsystem.component
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,8 +26,7 @@ import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 fun DismissButton(
     onClick: () -> Unit,
     label: String,
-    modifier: Modifier = Modifier,
-    interactionSource: MutableInteractionSource? = null
+    modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -37,10 +35,9 @@ fun DismissButton(
             haptics.performHapticFeedback(HapticFeedbackType.Confirm)
             onClick()
         },
-        shapes = ButtonDefaults.shapesFor(PlayPauseButtonDefaults.Height),
+        shapes = ButtonDefaults.shapesFor(StartPauseButtonDefaults.Height),
         contentPadding = PaddingValues(horizontal = 24.dp),
-        interactionSource = interactionSource,
-        modifier = modifier.height(PlayPauseButtonDefaults.Height)
+        modifier = modifier.height(StartPauseButtonDefaults.Height)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_check),

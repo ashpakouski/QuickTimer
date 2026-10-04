@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,27 +36,26 @@ import com.shpak.quicktimer.core.designsystem.R
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 
 @Composable
-fun PlayPauseButton(
+fun StartPauseButton(
     isRunning: Boolean,
-    onPlay: () -> Unit,
+    onStart: () -> Unit,
     onPause: () -> Unit,
-    playLabel: String,
+    startLabel: String,
     pauseLabel: String,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    shapes: ToggleButtonShapes = PlayPauseButtonDefaults.shapes(),
-    colors: ToggleButtonColors = PlayPauseButtonDefaults.colors(),
-    interactionSource: MutableInteractionSource? = null
+    shapes: ToggleButtonShapes = StartPauseButtonDefaults.shapes(),
+    colors: ToggleButtonColors = StartPauseButtonDefaults.colors()
 ) {
     val haptics = LocalHapticFeedback.current
     val motionScheme = MaterialTheme.motionScheme
 
     ToggleButton(
         checked = isRunning,
-        onCheckedChange = { play ->
-            if (play) {
+        onCheckedChange = { start ->
+            if (start) {
                 haptics.performHapticFeedback(HapticFeedbackType.ToggleOn)
-                onPlay()
+                onStart()
             } else {
                 haptics.performHapticFeedback(HapticFeedbackType.ToggleOff)
                 onPause()
@@ -67,14 +65,13 @@ fun PlayPauseButton(
         shapes = shapes,
         colors = colors,
         contentPadding = PaddingValues(horizontal = 24.dp),
-        interactionSource = interactionSource,
-        modifier = modifier.height(PlayPauseButtonDefaults.Height)
+        modifier = modifier.height(StartPauseButtonDefaults.Height)
     ) {
         AnimatedContent(
             targetState = if (isRunning) {
                 R.drawable.ic_pause to pauseLabel
             } else {
-                R.drawable.ic_play_arrow to playLabel
+                R.drawable.ic_play_arrow to startLabel
             },
             transitionSpec = {
                 (fadeIn(motionScheme.fastEffectsSpec()) +
@@ -88,7 +85,7 @@ fun PlayPauseButton(
                     )
             },
             contentAlignment = Alignment.Center,
-            label = "playPauseContent"
+            label = "startPauseContent"
         ) { (icon, label) ->
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -111,7 +108,7 @@ fun PlayPauseButton(
     }
 }
 
-object PlayPauseButtonDefaults {
+object StartPauseButtonDefaults {
     val Height: Dp = 80.dp
 
     @Composable
@@ -126,29 +123,29 @@ object PlayPauseButtonDefaults {
     )
 }
 
-@Preview(name = "Play/pause states", showBackground = true, widthDp = 360)
+@Preview(name = "Start/pause states", showBackground = true, widthDp = 360)
 @Composable
-private fun PlayPauseButtonStatesPreview() {
+private fun StartPauseButtonStatesPreview() {
     QuickTimerTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.padding(24.dp)
         ) {
-            listOf(false, true).forEach { isPlaying ->
-                PlayPauseButton(
-                    isRunning = isPlaying,
-                    onPlay = {},
+            listOf(false, true).forEach { isRunning ->
+                StartPauseButton(
+                    isRunning = isRunning,
+                    onStart = {},
                     onPause = {},
-                    playLabel = "Start",
+                    startLabel = "Start",
                     pauseLabel = "Pause",
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            PlayPauseButton(
+            StartPauseButton(
                 isRunning = false,
-                onPlay = {},
+                onStart = {},
                 onPause = {},
-                playLabel = "Start",
+                startLabel = "Start",
                 pauseLabel = "Pause",
                 isEnabled = false,
                 modifier = Modifier.fillMaxWidth()
@@ -158,20 +155,20 @@ private fun PlayPauseButtonStatesPreview() {
 }
 
 @Preview(
-    name = "Play/pause dark",
+    name = "Start/pause dark",
     showBackground = true,
     backgroundColor = 0xFF13150E,
     widthDp = 360,
     uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun PlayPauseButtonDarkPreview() {
+private fun StartPauseButtonDarkPreview() {
     QuickTimerTheme(darkTheme = true) {
-        PlayPauseButton(
+        StartPauseButton(
             isRunning = true,
-            onPlay = {},
+            onStart = {},
             onPause = {},
-            playLabel = "Start",
+            startLabel = "Start",
             pauseLabel = "Pause",
             modifier = Modifier
                 .padding(24.dp)

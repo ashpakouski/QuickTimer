@@ -1,6 +1,5 @@
 package com.shpak.quicktimer.core.designsystem.component
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FilledTonalIconButton
@@ -20,8 +19,7 @@ import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 @Composable
 fun ResetButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    interactionSource: MutableInteractionSource? = null
+    modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -34,7 +32,6 @@ fun ResetButton(
             shape = IconButtonDefaults.largeSquareShape,
             pressedShape = IconButtonDefaults.largePressedShape
         ),
-        interactionSource = interactionSource,
         modifier = modifier.size(ResetButtonDefaults.Size)
     ) {
         Icon(
@@ -46,7 +43,7 @@ fun ResetButton(
 }
 
 object ResetButtonDefaults {
-    val Size: Dp = PlayPauseButtonDefaults.Height
+    val Size: Dp = StartPauseButtonDefaults.Height
 }
 
 @Preview(showBackground = true)

@@ -1,6 +1,5 @@
 package com.shpak.quicktimer.core.designsystem.component
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,8 +20,7 @@ import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 fun AddTimeButton(
     onClick: () -> Unit,
     label: String,
-    modifier: Modifier = Modifier,
-    interactionSource: MutableInteractionSource? = null
+    modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -36,8 +34,7 @@ fun AddTimeButton(
             pressedShape = IconButtonDefaults.largePressedShape
         ),
         contentPadding = PaddingValues(0.dp),
-        interactionSource = interactionSource,
-        modifier = modifier.size(PlayPauseButtonDefaults.Height)
+        modifier = modifier.size(StartPauseButtonDefaults.Height)
     ) {
         Text(
             text = label,

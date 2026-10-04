@@ -22,7 +22,7 @@ import com.shpak.quicktimer.R
 import com.shpak.quicktimer.core.designsystem.component.AddTimeButton
 import com.shpak.quicktimer.core.designsystem.component.DismissButton
 import com.shpak.quicktimer.core.designsystem.component.NumberPicker
-import com.shpak.quicktimer.core.designsystem.component.PlayPauseButton
+import com.shpak.quicktimer.core.designsystem.component.StartPauseButton
 import com.shpak.quicktimer.core.designsystem.component.ResetButton
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 import com.shpak.timer.core.DismissMode
@@ -167,11 +167,11 @@ private fun TimerControls(
         } else {
             val isPaused = state is TimerState.Paused
 
-            PlayPauseButton(
+            StartPauseButton(
                 isRunning = state is TimerState.Running,
-                onPlay = if (isPaused) onResume else onStart,
+                onStart = if (isPaused) onResume else onStart,
                 onPause = onPause,
-                playLabel = stringResource(
+                startLabel = stringResource(
                     if (isPaused) {
                         R.string.timer_button_resume
                     } else {
