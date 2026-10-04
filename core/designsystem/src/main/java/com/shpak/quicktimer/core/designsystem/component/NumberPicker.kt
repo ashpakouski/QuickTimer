@@ -1,19 +1,19 @@
 package com.shpak.quicktimer.core.designsystem.component
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.SnapPosition
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.gestures.snapping.snapFlingBehavior
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import com.shpak.quicktimer.core.designsystem.theme.TimerTextStyles
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -81,6 +82,16 @@ fun NumberPicker(
     val scope = rememberCoroutineScope()
     val isDragged by state.interactionSource.collectIsDraggedAsState()
 
+    val motionScheme = MaterialTheme.motionScheme
+    val scrollSpec = motionScheme.defaultSpatialSpec<Float>()
+    val snapLayoutInfoProvider = remember(state) {
+        SnapLayoutInfoProvider(state, SnapPosition.Center)
+    }
+    val decaySpec = rememberSplineBasedDecay<Float>()
+    val flingBehavior = remember(snapLayoutInfoProvider, decaySpec, scrollSpec) {
+        snapFlingBehavior(snapLayoutInfoProvider, decaySpec, scrollSpec)
+    }
+
     LaunchedEffect(state, range) {
         snapshotFlow {
             centeredIndex.takeUnless { isAutoscrolling }
@@ -117,12 +128,12 @@ fun NumberPicker(
 
     val pillCorner by animateDpAsState(
         targetValue = if (isDragged) 18.dp else 26.dp,
-        animationSpec = spring(dampingRatio = 0.6f, stiffness = 500f),
+        animationSpec = motionScheme.fastSpatialSpec(),
         label = "pillCorner"
     )
     val pillScale by animateFloatAsState(
         targetValue = if (isDragged) 0.98f else 1f,
-        animationSpec = spring(dampingRatio = 0.6f, stiffness = 500f),
+        animationSpec = motionScheme.fastSpatialSpec(),
         label = "pillScale"
     )
 
@@ -147,7 +158,7 @@ fun NumberPicker(
 
         LazyColumn(
             state = state,
-            flingBehavior = rememberSnapFlingBehavior(state, SnapPosition.Center),
+            flingBehavior = flingBehavior,
             contentPadding = PaddingValues(vertical = rowHeight * sideRowsCount),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -169,10 +180,7 @@ fun NumberPicker(
                 }
         ) {
             items(count = totalCount) { index ->
-                val distance by remember(index) {
-                    derivedStateOf { abs(index - centeredIndex) }
-                }
-                val isSelected = distance == 0
+                val text = label(range.first + index % valuesCount)
 
                 Box(
                     contentAlignment = Alignment.Center,
@@ -183,9 +191,12 @@ fun NumberPicker(
                             interactionSource = null,
                             indication = null
                         ) {
-                            scope.launch { state.animateScrollToItem(index - sideRowsCount) }
+                            scope.launch {
+                                state.animateScrollToItem(index)
+                            }
                         }
                         .graphicsLayer {
+                            val distance = state.distanceFromCenter(index, rowHeightPx)
                             alpha = alphaForDistance(distance)
                             val scale = scaleForDistance(distance)
                             scaleX = scale
@@ -193,18 +204,26 @@ fun NumberPicker(
                         }
                 ) {
                     Text(
-                        text = label(range.first + index % valuesCount),
-                        color = if (isSelected) {
-                            colors.selectedContentColor
-                        } else {
-                            colors.contentColor
-                        },
-                        style = if (isSelected) {
-                            TimerTextStyles.wheelSelected
-                        } else {
-                            TimerTextStyles.wheelUnselected
-                        },
-                        maxLines = 1
+                        text = text,
+                        color = colors.contentColor,
+                        style = TimerTextStyles.wheelUnselected,
+                        maxLines = 1,
+                        modifier = Modifier.graphicsLayer {
+                            alpha = 1f - selectedTextAlphaForDistance(
+                                state.distanceFromCenter(index, rowHeightPx)
+                            )
+                        }
+                    )
+                    Text(
+                        text = text,
+                        color = colors.selectedContentColor,
+                        style = TimerTextStyles.wheelSelected,
+                        maxLines = 1,
+                        modifier = Modifier.graphicsLayer {
+                            alpha = selectedTextAlphaForDistance(
+                                state.distanceFromCenter(index, rowHeightPx)
+                            )
+                        }
                     )
                 }
             }
@@ -222,19 +241,37 @@ private fun LazyListState.centeredIndex(rowHeightPx: Float, count: Int): Int {
     return (firstVisibleItemIndex + offsetRows).coerceIn(0..<count)
 }
 
+/**
+ * How far the row is from the center slot.
+ */
+private fun LazyListState.distanceFromCenter(index: Int, rowHeightPx: Float): Float {
+    if (rowHeightPx <= 0f) {
+        return 0f
+    }
+
+    val centerPosition = firstVisibleItemIndex + firstVisibleItemScrollOffset / rowHeightPx
+
+    return abs(index - centerPosition)
+}
+
 private fun twoDigits(value: Int): String = value.toString().padStart(2, '0')
 
-private fun alphaForDistance(distanceIndices: Int): Float = when (distanceIndices) {
-    0 -> 1f
-    1 -> 0.65f
+private fun alphaForDistance(distance: Float): Float = when {
+    distance <= 1f -> lerp(1f, 0.65f, distance)
+    distance <= 2f -> lerp(0.65f, 0.42f, distance - 1f)
     else -> 0.42f
 }
 
-private fun scaleForDistance(distanceIndices: Int): Float = when (distanceIndices) {
-    0 -> 1f
-    1 -> 0.92f
-    else -> 0.85f
+private fun scaleForDistance(distance: Float): Float = when {
+    distance <= 1f -> lerp(1f, AdjacentRowScale, distance)
+    distance <= 2f -> lerp(AdjacentRowScale, OuterRowScale, distance - 1f)
+    else -> OuterRowScale
 }
+
+private fun selectedTextAlphaForDistance(distance: Float): Float = (1f - distance).coerceIn(0f, 1f)
+
+private val AdjacentRowScale = 33f / TimerTextStyles.wheelSelected.fontSize.value
+private val OuterRowScale = 31f / TimerTextStyles.wheelSelected.fontSize.value
 
 @Immutable
 data class NumberPickerColors(
