@@ -20,7 +20,6 @@ import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 @Composable
 fun ResetButton(
     onClick: () -> Unit,
-    contentDescription: String?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null
 ) {
@@ -40,7 +39,7 @@ fun ResetButton(
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_replay),
-            contentDescription = contentDescription,
+            contentDescription = null,
             modifier = Modifier.size(28.dp)
         )
     }
@@ -56,7 +55,6 @@ private fun ResetButtonPreview() {
     QuickTimerTheme {
         ResetButton(
             onClick = {},
-            contentDescription = "Reset",
             modifier = Modifier.padding(24.dp)
         )
     }

@@ -22,6 +22,7 @@
     <string name="timer_button_pause">Pause</string>
     <string name="timer_button_resume">Resume</string>
     <string name="timer_button_dismiss">Dismiss</string>
+    <string name="timer_button_add_minute">+1</string>
 
     <!--  Notifications  -->
     <string name="notification_channel_name">Quick Timer Notifications</string>
