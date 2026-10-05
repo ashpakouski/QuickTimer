@@ -64,6 +64,7 @@ private fun numeralText(
 )
 
 object TimerTextStyles {
+    val countdown = numeralText(72, 84, FontWeight.Medium, (-0.04).em)
     val wheelSelected = numeralText(52, 60, FontWeight.Medium, (-0.04).em)
     val wheelUnselected = numeralText(52, 60, tracking = (-0.04).em)
 }

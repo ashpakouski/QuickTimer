@@ -137,7 +137,7 @@ fun NumberPicker(
         label = "pillScale"
     )
 
-    val fadeFraction = 0.27f
+    val fadeFraction = 0.12f
     Box(
         modifier = modifier
             .height(rowHeight * visibleRows)
@@ -188,8 +188,7 @@ fun NumberPicker(
                         .fillMaxWidth()
                         .height(rowHeight)
                         .clickable(
-                            interactionSource = null,
-                            indication = null
+                            enabled = state.distanceFromCenter(index, rowHeightPx) <= 1.1f
                         ) {
                             scope.launch {
                                 state.animateScrollToItem(index)
@@ -257,8 +256,8 @@ private fun LazyListState.distanceFromCenter(index: Int, rowHeightPx: Float): Fl
 private fun twoDigits(value: Int): String = value.toString().padStart(2, '0')
 
 private fun alphaForDistance(distance: Float): Float = when {
-    distance <= 1f -> lerp(1f, 0.65f, distance)
-    distance <= 2f -> lerp(0.65f, 0.42f, distance - 1f)
+    distance <= 1f -> 1f
+    distance <= 2f -> lerp(1f, 0.42f, distance - 1f)
     else -> 0.42f
 }
 

@@ -5,12 +5,14 @@ sealed interface TimerState {
 
     data class Running(
         val endTimeMillis: Long,
-        val settings: TimerSettings
+        val settings: TimerSettings,
+        val totalMillis: Long = 0L
     ) : TimerState
 
     data class Paused(
         val remainingMillis: Long,
-        val settings: TimerSettings
+        val settings: TimerSettings,
+        val totalMillis: Long = 0L
     ) : TimerState
 
     data class Ringing(

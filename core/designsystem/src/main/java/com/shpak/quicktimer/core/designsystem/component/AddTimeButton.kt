@@ -1,8 +1,7 @@
 package com.shpak.quicktimer.core.designsystem.component
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.IconButtonDefaults
@@ -33,8 +32,8 @@ fun AddTimeButton(
             shape = IconButtonDefaults.largeSquareShape,
             pressedShape = IconButtonDefaults.largePressedShape
         ),
-        contentPadding = PaddingValues(0.dp),
-        modifier = modifier.size(StartPauseButtonDefaults.Height)
+        contentPadding = ButtonDefaults.contentPaddingFor(StartPauseButtonDefaults.Height),
+        modifier = modifier.height(StartPauseButtonDefaults.Height)
     ) {
         Text(
             text = label,
@@ -50,7 +49,7 @@ private fun AddTimeButtonPreview() {
     QuickTimerTheme {
         AddTimeButton(
             onClick = {},
-            label = "+1",
+            label = "+1 min",
             modifier = Modifier.padding(24.dp)
         )
     }
