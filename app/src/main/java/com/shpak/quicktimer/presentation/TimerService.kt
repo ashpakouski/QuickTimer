@@ -10,8 +10,9 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import com.shpak.quicktimer.R
 import com.shpak.quicktimer.di.Hub
+import com.shpak.quicktimer.domain.alarm.AlarmPlayer
+import com.shpak.quicktimer.domain.alarm.AlarmSettingsRepository
 import com.shpak.quicktimer.util.lazyTryOrNull
-import com.shpak.quicktimer.util.playSound
 import com.shpak.quicktimer.util.toHhMmSs
 import com.shpak.timer.android.AndroidTimerClock
 import com.shpak.timer.core.Countdown
@@ -56,6 +57,8 @@ class TimerService : Service() {
     }
 
     private val timerStore by lazy { Hub.get<TimerStore>() }
+    private val alarmSettings by lazy { Hub.get<AlarmSettingsRepository>() }
+    private val alarmPlayer by lazy { Hub.get<AlarmPlayer>() }
     private val serviceScope = MainScope()
 
     private val notificationController by lazyTryOrNull {
@@ -79,6 +82,7 @@ class TimerService : Service() {
     }
 
     private var renderedState: TimerState? = null
+    private var ringJob: Job? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -105,6 +109,7 @@ class TimerService : Service() {
 
     override fun onDestroy() {
         serviceScope.cancel()
+        stopRinging()
 
         super.onDestroy()
     }
@@ -114,6 +119,10 @@ class TimerService : Service() {
     private fun render(countdown: Countdown) {
         val state = countdown.state
         val time = countdown.remainingMillis.toHhMmSs()
+
+        if (state !is TimerState.Ringing && renderedState is TimerState.Ringing) {
+            stopRinging()
+        }
 
         when (state) {
             TimerState.Idle -> {
@@ -144,7 +153,7 @@ class TimerService : Service() {
                 )
 
                 if (renderedState !is TimerState.Ringing) {
-                    ring()
+                    ring(isContinuous = isManual)
                 }
             }
         }
@@ -158,12 +167,16 @@ class TimerService : Service() {
         )
     }
 
-    private fun ring() {
-        try {
-            playSound(applicationContext, R.raw.double_ping)
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun ring(isContinuous: Boolean) {
+        ringJob = serviceScope.launch {
+            alarmPlayer.play(alarmSettings.getSound(), isLooping = isContinuous)
         }
+    }
+
+    private fun stopRinging() {
+        ringJob?.cancel()
+        ringJob = null
+        alarmPlayer.stop()
     }
 
     private fun notificationButton(action: String, @StringRes titleId: Int) =

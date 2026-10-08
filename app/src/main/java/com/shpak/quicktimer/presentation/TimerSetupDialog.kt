@@ -1,11 +1,12 @@
 package com.shpak.quicktimer.presentation
 
 import android.content.Context
+import android.media.AudioManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import com.shpak.quicktimer.R
-import com.shpak.quicktimer.data.MediaVolumeTracker
+import com.shpak.quicktimer.data.AlarmVolumeTracker
 import com.shpak.quicktimer.databinding.TimerSettingsDialogBinding
 import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.util.HapticsCompat
@@ -21,7 +22,7 @@ class TimerSetupDialog(context: Context) : CustomDialog(context) {
         private const val MIN_AUDIBLE_VOLUME_FRACTION = 0.35f
     }
 
-    private val volumeTracker = MediaVolumeTracker(context, ::onVolumeFractionChange)
+    private val volumeTracker = AlarmVolumeTracker(context, ::onVolumeFractionChange)
     private val haptics = HapticsCompat(context)
     private val timerStore = Hub.get<TimerStore>()
 
@@ -44,6 +45,7 @@ class TimerSetupDialog(context: Context) : CustomDialog(context) {
         setOnShowListener { onShow() }
         setOnDismissListener { onDismiss() }
         setOnKeyListener(volumeTracker)
+        volumeControlStream = AudioManager.STREAM_ALARM
     }
 
     private fun onShow() {
@@ -70,7 +72,7 @@ class TimerSetupDialog(context: Context) : CustomDialog(context) {
                 TimerEvent.Start(
                     durationMillis = currentSelectionMillis,
                     settings = TimerSettings(
-                        dismissMode = DismissMode.AUTOMATIC
+                        dismissMode = DismissMode.MANUAL
                     )
                 )
             )

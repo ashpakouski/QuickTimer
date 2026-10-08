@@ -9,6 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -37,7 +42,10 @@ import kotlin.time.Duration.Companion.minutes
 private val AddTimeMillis = 1.minutes.inWholeMilliseconds
 
 @Composable
-fun TimerScreen(viewModel: TimerViewModel) {
+fun TimerScreen(
+    viewModel: TimerViewModel,
+    onSettingsClick: () -> Unit
+) {
     val countdown by viewModel.countdown.collectAsStateWithLifecycle(
         initialValue = viewModel.currentCountdown()
     )
@@ -47,7 +55,9 @@ fun TimerScreen(viewModel: TimerViewModel) {
         countdown = countdown,
         setup = setup,
         onSetupChange = viewModel::onSetupChange,
-        onEvent = viewModel::onEvent
+        onStart = viewModel::onStart,
+        onEvent = viewModel::onEvent,
+        onSettingsClick = onSettingsClick
     )
 }
 
@@ -56,17 +66,20 @@ private fun TimerScreen(
     countdown: Countdown,
     setup: TimerSetup,
     onSetupChange: ((TimerSetup) -> TimerSetup) -> Unit,
-    onEvent: (TimerEvent) -> Unit
+    onStart: () -> Unit,
+    onEvent: (TimerEvent) -> Unit,
+    onSettingsClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        Text(
-            text = stringResource(R.string.timer_header),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 8.dp)
+        TimerHeader(
+            onSettingsClick = onSettingsClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, top = 16.dp, end = 12.dp, bottom = 8.dp)
         )
 
         TimerContent(
@@ -82,11 +95,39 @@ private fun TimerScreen(
         TimerControls(
             state = countdown.state,
             setup = setup,
+            onStart = onStart,
             onEvent = onEvent,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         )
+    }
+}
+
+@Composable
+private fun TimerHeader(
+    onSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.timer_header),
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.weight(1f)
+        )
+
+        IconButton(
+            onClick = onSettingsClick,
+            shapes = IconButtonDefaults.shapes()
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Settings,
+                contentDescription = null
+            )
+        }
     }
 }
 
@@ -196,6 +237,7 @@ private fun TimeUnitPicker(
 private fun TimerControls(
     state: TimerState,
     setup: TimerSetup,
+    onStart: () -> Unit,
     onEvent: (TimerEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -220,7 +262,7 @@ private fun TimerControls(
             if (isActive) {
                 AddMinuteButton(onEvent)
             }
-            PrimaryActionButton(state, setup, onEvent, Modifier.weight(1f))
+            PrimaryActionButton(state, setup, onStart, onEvent, Modifier.weight(1f))
         }
     }
 }
@@ -241,6 +283,7 @@ private fun AddMinuteButton(
 private fun PrimaryActionButton(
     state: TimerState,
     setup: TimerSetup,
+    onStart: () -> Unit,
     onEvent: (TimerEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -257,12 +300,7 @@ private fun PrimaryActionButton(
     StartPauseButton(
         isRunning = state is TimerState.Running,
         onStart = {
-            val event = if (isPaused) {
-                TimerEvent.Resume
-            } else {
-                TimerEvent.Start(setup.durationMillis, TimerSettings(DismissMode.MANUAL))
-            }
-            onEvent(event)
+            if (isPaused) onEvent(TimerEvent.Resume) else onStart()
         },
         onPause = { onEvent(TimerEvent.Pause) },
         startLabel = stringResource(
@@ -286,7 +324,14 @@ private val PreviewIdle = Countdown(TimerState.Idle, 0L)
 @Composable
 private fun TimerScreenPreview(countdown: Countdown, darkTheme: Boolean = false) =
     QuickTimerTheme(darkTheme = darkTheme) {
-        TimerScreen(countdown = countdown, setup = PreviewSetup, onSetupChange = {}, onEvent = {})
+        TimerScreen(
+            countdown = countdown,
+            setup = PreviewSetup,
+            onSetupChange = {},
+            onStart = {},
+            onEvent = {},
+            onSettingsClick = {}
+        )
     }
 
 @Preview(showBackground = true, widthDp = 400, heightDp = 844)

@@ -3,8 +3,10 @@ package com.shpak.quicktimer.ui.timer
 import androidx.lifecycle.ViewModel
 import com.shpak.quicktimer.di.Hub
 import com.shpak.timer.android.AndroidTimerClock
-import com.shpak.timer.core.TimerEvent
 import com.shpak.timer.core.Countdown
+import com.shpak.timer.core.DismissMode
+import com.shpak.timer.core.TimerEvent
+import com.shpak.timer.core.TimerSettings
 import com.shpak.timer.core.TimerStore
 import com.shpak.timer.core.countdown
 import com.shpak.timer.core.remainingMillisAt
@@ -27,6 +29,17 @@ class TimerViewModel(
     fun currentCountdown(): Countdown {
         val state = timerStore.state.value
         return Countdown(state, state.remainingMillisAt(AndroidTimerClock.nowMillis()))
+    }
+
+    fun onStart() {
+        timerStore.dispatch(
+            TimerEvent.Start(
+                durationMillis = _setup.value.durationMillis,
+                settings = TimerSettings(
+                    dismissMode = DismissMode.MANUAL
+                )
+            )
+        )
     }
 
     fun onEvent(event: TimerEvent) {
