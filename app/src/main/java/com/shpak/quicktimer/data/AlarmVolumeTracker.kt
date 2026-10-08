@@ -12,7 +12,7 @@ import android.view.KeyEvent
 import com.shpak.quicktimer.util.currentVolumeFraction
 import com.shpak.quicktimer.util.volumeStepFraction
 
-class MediaVolumeTracker(
+class AlarmVolumeTracker(
     private val context: Context,
     private val onVolumeFractionChange: (Float) -> Unit
 ) : DialogInterface.OnKeyListener {
@@ -23,7 +23,7 @@ class MediaVolumeTracker(
         override fun onChange(selfChange: Boolean, uri: Uri?) {
             super.onChange(selfChange, uri)
 
-            if (uri?.lastPathSegment == "volume_music_speaker") {
+            if (uri?.lastPathSegment == "volume_alarm_speaker") {
                 audioManager?.currentVolumeFraction()?.let(onVolumeFractionChange)
             }
         }
