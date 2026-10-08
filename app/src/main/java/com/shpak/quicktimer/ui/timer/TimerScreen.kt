@@ -46,14 +46,10 @@ fun TimerScreen(
     viewModel: TimerViewModel,
     onSettingsClick: () -> Unit
 ) {
-    val countdown by viewModel.countdown.collectAsStateWithLifecycle(
-        initialValue = viewModel.currentCountdown()
-    )
-    val setup by viewModel.setup.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     TimerScreen(
-        countdown = countdown,
-        setup = setup,
+        uiState = uiState,
         onSetupChange = viewModel::onSetupChange,
         onStart = viewModel::onStart,
         onEvent = viewModel::onEvent,
@@ -63,8 +59,7 @@ fun TimerScreen(
 
 @Composable
 private fun TimerScreen(
-    countdown: Countdown,
-    setup: TimerSetup,
+    uiState: TimerUiState,
     onSetupChange: ((TimerSetup) -> TimerSetup) -> Unit,
     onStart: () -> Unit,
     onEvent: (TimerEvent) -> Unit,
@@ -83,8 +78,8 @@ private fun TimerScreen(
         )
 
         TimerContent(
-            countdown = countdown,
-            setup = setup,
+            countdown = uiState.countdown,
+            setup = uiState.setup,
             onSetupChange = onSetupChange,
             modifier = Modifier
                 .weight(1f)
@@ -93,8 +88,8 @@ private fun TimerScreen(
         )
 
         TimerControls(
-            state = countdown.state,
-            setup = setup,
+            state = uiState.countdown.state,
+            setup = uiState.setup,
             onStart = onStart,
             onEvent = onEvent,
             modifier = Modifier
@@ -114,7 +109,7 @@ private fun TimerHeader(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.timer_header),
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.weight(1f)
         )
@@ -325,8 +320,7 @@ private val PreviewIdle = Countdown(TimerState.Idle, 0L)
 private fun TimerScreenPreview(countdown: Countdown, darkTheme: Boolean = false) =
     QuickTimerTheme(darkTheme = darkTheme) {
         TimerScreen(
-            countdown = countdown,
-            setup = PreviewSetup,
+            uiState = TimerUiState(countdown = countdown, setup = PreviewSetup),
             onSetupChange = {},
             onStart = {},
             onEvent = {},

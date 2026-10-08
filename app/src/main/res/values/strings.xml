@@ -23,7 +23,6 @@
     <string name="timer_button_resume">Resume</string>
     <string name="timer_button_dismiss">Dismiss</string>
     <string name="timer_button_add_minute">+1 min</string>
-    <string name="timer_header">Timer</string>
     <string name="timer_button_cancel">Cancel</string>
     <string name="timer_time_up">Time\'s up</string>
 
