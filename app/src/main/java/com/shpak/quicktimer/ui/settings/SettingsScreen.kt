@@ -172,7 +172,7 @@ private val SoundListShape = RoundedCornerShape(SoundPreviewButtonSize / 2 + Sou
 
 @Composable
 private fun SoundList(
-    selected: AlarmSound,
+    selected: AlarmSound?,
     previewing: AlarmSound?,
     onSelect: (AlarmSound) -> Unit,
     onPreviewToggle: (AlarmSound) -> Unit

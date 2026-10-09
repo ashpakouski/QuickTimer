@@ -3,10 +3,12 @@ package com.shpak.quicktimer
 import android.app.Application
 import com.shpak.quicktimer.data.alarm.DefaultAlarmSettingsRepository
 import com.shpak.quicktimer.data.alarm.MediaPlayerAlarmPlayer
+import com.shpak.quicktimer.data.notification.AndroidNotificationPermission
 import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.domain.alarm.AlarmPlayer
-import com.shpak.quicktimer.domain.alarm.SoundPreviewPlayer
 import com.shpak.quicktimer.domain.alarm.AlarmSettingsRepository
+import com.shpak.quicktimer.domain.alarm.SoundPreviewPlayer
+import com.shpak.quicktimer.domain.notification.NotificationPermission
 import com.shpak.quicktimer.presentation.TimerService
 import com.shpak.timer.android.AndroidTimerClock
 import com.shpak.timer.android.TimerAlarmScheduler
@@ -32,6 +34,7 @@ class QuickTimerApp : Application(), TimerStoreOwner {
         Hub.addLazyInstance<AlarmSettingsRepository> { DefaultAlarmSettingsRepository(this) }
         Hub.addFactory<AlarmPlayer> { MediaPlayerAlarmPlayer(this) }
         Hub.addFactory<SoundPreviewPlayer> { MediaPlayerAlarmPlayer(this) }
+        Hub.addLazyInstance<NotificationPermission> { AndroidNotificationPermission(this) }
 
         timerStore.dispatchTimeUp(applicationScope, AndroidTimerClock)
         timerStore.autoDismissRinging(applicationScope)

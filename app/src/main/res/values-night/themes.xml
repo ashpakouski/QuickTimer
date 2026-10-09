@@ -1,4 +1,0 @@
-<resources>
-
-    <style name="NumberPickerStyle" parent="Theme.AppCompat.DayNight.NoActionBar" />
-</resources>

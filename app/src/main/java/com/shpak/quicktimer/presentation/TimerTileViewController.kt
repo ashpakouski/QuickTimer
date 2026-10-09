@@ -43,7 +43,7 @@ class TimerTileViewController : TileService() {
     private fun showTimerSettingsDialog() {
         if (timerSettingsDialog?.isShowing == true) return
 
-        timerSettingsDialog = TimerSetupDialog(applicationContext).apply {
+        timerSettingsDialog = TimerSetupBottomSheet(applicationContext).apply {
             showDialog(this)
         }
     }
@@ -51,7 +51,7 @@ class TimerTileViewController : TileService() {
     private fun requestNotificationsPermission() {
         if (permissionRequestDialog?.isShowing == true) return
 
-        permissionRequestDialog = NotificationPermissionRequestDialog(applicationContext).apply {
+        permissionRequestDialog = NotificationPermissionBottomSheet(applicationContext).apply {
             showDialog(this)
         }
     }

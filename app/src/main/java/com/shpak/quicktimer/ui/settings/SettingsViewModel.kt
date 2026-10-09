@@ -38,9 +38,10 @@ class SettingsViewModel(
     }
 
     fun onPreviewToggle(sound: AlarmSound) {
+        val isSameSound = _previewingSound.value == sound
         stopPreview()
 
-        if (_previewingSound.value == sound) {
+        if (isSameSound) {
             return
         }
 

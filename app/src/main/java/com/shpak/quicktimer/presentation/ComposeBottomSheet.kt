@@ -28,7 +28,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.WindowCompat
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 
-abstract class ComposeBottomSheetDialog(context: Context) : ComponentDialog(context) {
+abstract class ComposeBottomSheet(context: Context) : ComponentDialog(context) {
     init {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
     }

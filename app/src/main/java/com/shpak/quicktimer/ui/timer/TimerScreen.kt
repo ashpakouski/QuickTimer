@@ -22,16 +22,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shpak.quicktimer.R
-import com.shpak.quicktimer.core.designsystem.component.AddTimeButton
 import com.shpak.quicktimer.core.designsystem.component.DismissButton
-import com.shpak.quicktimer.core.designsystem.component.NumberPicker
 import com.shpak.quicktimer.core.designsystem.component.StartPauseButton
+import com.shpak.quicktimer.core.designsystem.component.TonalActionButton
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
+import com.shpak.quicktimer.ui.permission.NotificationPermissionSheet
+import com.shpak.quicktimer.ui.permission.rememberNotificationPermissionRequest
 import com.shpak.timer.core.Countdown
 import com.shpak.timer.core.DismissMode
 import com.shpak.timer.core.TimerEvent
@@ -47,6 +47,7 @@ fun TimerScreen(
     onSettingsClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val requestNotificationPermission = rememberNotificationPermissionRequest()
 
     TimerScreen(
         uiState = uiState,
@@ -55,6 +56,16 @@ fun TimerScreen(
         onEvent = viewModel::onEvent,
         onSettingsClick = onSettingsClick
     )
+
+    if (uiState.isNotificationRationaleVisible) {
+        NotificationPermissionSheet(
+            onConfirm = {
+                viewModel.onNotificationRationaleConfirm()
+                requestNotificationPermission()
+            },
+            onDismiss = viewModel::onNotificationRationaleDismiss
+        )
+    }
 }
 
 @Composable
@@ -155,80 +166,6 @@ private fun TimerContent(
 }
 
 @Composable
-private fun TimerSetupPickers(
-    setup: TimerSetup,
-    onSetupChange: ((TimerSetup) -> TimerSetup) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        TimeUnitPicker(
-            label = stringResource(R.string.timer_settings_label_hours),
-            value = setup.hours,
-            range = TimerSetup.HoursRange,
-            onValueChange = { hours ->
-                onSetupChange { current ->
-                    current.copy(hours = hours)
-                }
-            },
-            modifier = Modifier.weight(1f)
-        )
-        TimeUnitPicker(
-            label = stringResource(R.string.timer_settings_label_minutes),
-            value = setup.minutes,
-            range = TimerSetup.MinutesRange,
-            onValueChange = { minutes ->
-                onSetupChange { current ->
-                    current.copy(minutes = minutes)
-                }
-            },
-            modifier = Modifier.weight(1f)
-        )
-        TimeUnitPicker(
-            label = stringResource(R.string.timer_settings_label_seconds),
-            value = setup.seconds,
-            range = TimerSetup.SecondsRange,
-            onValueChange = { seconds ->
-                onSetupChange { current ->
-                    current.copy(seconds = seconds)
-                }
-            },
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-private fun TimeUnitPicker(
-    label: String,
-    value: Int,
-    range: IntRange,
-    onValueChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Center
-        )
-        NumberPicker(
-            value = value,
-            onValueChange = onValueChange,
-            range = range,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
 private fun TimerControls(
     state: TimerState,
     setup: TimerSetup,
@@ -267,8 +204,10 @@ private fun AddMinuteButton(
     onEvent: (TimerEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AddTimeButton(
-        onClick = { onEvent(TimerEvent.AddTime(AddTimeMillis)) },
+    TonalActionButton(
+        onClick = {
+            onEvent(TimerEvent.AddTime(AddTimeMillis))
+        },
         label = stringResource(R.string.timer_button_add_minute),
         modifier = modifier
     )

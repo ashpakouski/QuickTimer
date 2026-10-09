@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 
 @Composable
-fun AddTimeButton(
+fun TonalActionButton(
     onClick: () -> Unit,
     label: String,
     modifier: Modifier = Modifier
@@ -45,9 +45,9 @@ fun AddTimeButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun AddTimeButtonPreview() {
+private fun TonalActionButtonPreview() {
     QuickTimerTheme {
-        AddTimeButton(
+        TonalActionButton(
             onClick = {},
             label = "+1 min",
             modifier = Modifier.padding(24.dp)
