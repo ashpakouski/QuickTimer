@@ -39,7 +39,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -210,6 +212,7 @@ private fun SoundRow(
     onSelect: () -> Unit,
     onPreviewToggle: () -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
     val colorScheme = MaterialTheme.colorScheme
     val colorSpec = MaterialTheme.motionScheme.defaultEffectsSpec<Color>()
     val containerColor by animateColorAsState(
@@ -250,7 +253,12 @@ private fun SoundRow(
                 .selectable(
                     selected = isSelected,
                     role = Role.RadioButton,
-                    onClick = onSelect
+                    onClick = {
+                        if (!isSelected) {
+                            haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                        }
+                        onSelect()
+                    }
                 )
                 .padding(start = 16.dp, top = 12.dp, end = 8.dp, bottom = 12.dp)
         ) {
@@ -278,11 +286,17 @@ private fun SoundPreviewButton(
     isPreviewing: Boolean,
     onToggle: () -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
     val colorScheme = MaterialTheme.colorScheme
 
     FilledIconToggleButton(
         checked = isPreviewing,
-        onCheckedChange = { onToggle() },
+        onCheckedChange = { isChecked ->
+            haptics.performHapticFeedback(
+                if (isChecked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+            )
+            onToggle()
+        },
         shape = CircleShape,
         colors = IconButtonDefaults.filledIconToggleButtonColors(
             containerColor = Color.Transparent,

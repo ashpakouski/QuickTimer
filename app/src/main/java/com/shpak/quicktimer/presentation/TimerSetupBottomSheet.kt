@@ -11,7 +11,6 @@ import com.shpak.quicktimer.data.AlarmVolumeTracker
 import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.ui.timer.TimerSetup
 import com.shpak.quicktimer.ui.timer.TimerSetupUi
-import com.shpak.quicktimer.util.HapticsCompat
 import com.shpak.timer.core.DismissMode
 import com.shpak.timer.core.TimerEvent
 import com.shpak.timer.core.TimerSettings
@@ -28,7 +27,6 @@ class TimerSetupBottomSheet(context: Context) : ComposeBottomSheet(context) {
     private var isVolumeLow by mutableStateOf(false)
 
     private val volumeTracker = AlarmVolumeTracker(context, ::onVolumeFractionChange)
-    private val haptics = HapticsCompat(context)
     private val timerStore = Hub.get<TimerStore>()
 
     init {
@@ -81,11 +79,7 @@ class TimerSetupBottomSheet(context: Context) : ComposeBottomSheet(context) {
     }
 
     private fun onSetupChange(transform: (TimerSetup) -> TimerSetup) {
-        val newSetup = transform(setup)
-        if (newSetup != setup) {
-            setup = newSetup
-            haptics.generateSingleTick()
-        }
+        setup = transform(setup)
     }
 
     private fun onVolumeFractionChange(volumeFraction: Float) {

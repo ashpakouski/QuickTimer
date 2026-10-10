@@ -40,6 +40,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -47,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.shpak.quicktimer.core.designsystem.theme.TimerTextStyles
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -81,6 +84,7 @@ fun NumberPicker(
     val currentOnValueChange by rememberUpdatedState(onValueChange)
     val scope = rememberCoroutineScope()
     val isDragged by state.interactionSource.collectIsDraggedAsState()
+    val haptics = LocalHapticFeedback.current
 
     val motionScheme = MaterialTheme.motionScheme
     val scrollSpec = motionScheme.defaultSpatialSpec<Float>()
@@ -102,6 +106,16 @@ fun NumberPicker(
                 val selectedNumber = range.first + index % valuesCount
                 if (selectedNumber != currentValue) {
                     currentOnValueChange(selectedNumber)
+                }
+            }
+    }
+
+    LaunchedEffect(state) {
+        snapshotFlow { centeredIndex }
+            .drop(1)
+            .collect {
+                if (!isAutoscrolling) {
+                    haptics.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                 }
             }
     }

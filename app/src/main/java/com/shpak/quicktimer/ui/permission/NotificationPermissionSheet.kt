@@ -28,6 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,6 +80,8 @@ fun NotificationPermissionContent(
     shouldShowCloseButton: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val haptics = LocalHapticFeedback.current
+
     Column(
         modifier = modifier
     ) {
@@ -116,7 +120,10 @@ fun NotificationPermissionContent(
                     .padding(top = 24.dp)
             ) {
                 TextButton(
-                    onClick = onDismiss
+                    onClick = {
+                        haptics.performHapticFeedback(HapticFeedbackType.VirtualKey)
+                        onDismiss()
+                    }
                 ) {
                     Text(
                         text = stringResource(R.string.notification_permission_button_not_now)
@@ -124,7 +131,10 @@ fun NotificationPermissionContent(
                 }
 
                 Button(
-                    onClick = onConfirm
+                    onClick = {
+                        haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+                        onConfirm()
+                    }
                 ) {
                     Text(
                         text = stringResource(R.string.notification_permission_button_allow)

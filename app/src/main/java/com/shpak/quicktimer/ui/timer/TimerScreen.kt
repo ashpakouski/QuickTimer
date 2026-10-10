@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -173,6 +175,7 @@ private fun TimerControls(
     onEvent: (TimerEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val haptics = LocalHapticFeedback.current
     val isActive = state !is TimerState.Idle
     val isCancellable = state is TimerState.Running || state is TimerState.Paused
 
@@ -182,7 +185,12 @@ private fun TimerControls(
         modifier = modifier
     ) {
         if (isCancellable) {
-            TextButton(onClick = { onEvent(TimerEvent.Stop) }) {
+            TextButton(
+                onClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.Reject)
+                    onEvent(TimerEvent.Stop)
+                }
+            ) {
                 Text(stringResource(R.string.timer_button_cancel))
             }
         }
