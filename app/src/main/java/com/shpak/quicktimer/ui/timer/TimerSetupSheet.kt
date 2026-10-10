@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shpak.quicktimer.R
 import com.shpak.quicktimer.core.designsystem.component.StartPauseButton
-import com.shpak.quicktimer.core.designsystem.component.TonalActionButton
 import com.shpak.quicktimer.core.designsystem.theme.QuickTimerTheme
 
 @Composable
@@ -71,10 +70,14 @@ fun TimerSetupUi(
                 VolumeWarning()
             }
 
-            TimerSetupControls(
-                isStartEnabled = setup.durationMillis > 0L,
+            val startLabel = stringResource(R.string.timer_settings_button_start)
+            StartPauseButton(
+                isRunning = false,
                 onStart = onStart,
-                onCancel = onCancel,
+                onPause = {},
+                startLabel = startLabel,
+                pauseLabel = startLabel,
+                isEnabled = setup.durationMillis > 0L,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -98,35 +101,6 @@ private fun VolumeWarning(modifier: Modifier = Modifier) {
             text = stringResource(R.string.warning_volume_low),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.error
-        )
-    }
-}
-
-@Composable
-fun TimerSetupControls(
-    isStartEnabled: Boolean,
-    onStart: () -> Unit,
-    onCancel: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
-    ) {
-        TonalActionButton(
-            onClick = onCancel,
-            label = stringResource(R.string.timer_settings_button_cancel)
-        )
-
-        val startLabel = stringResource(R.string.timer_settings_button_start)
-        StartPauseButton(
-            isRunning = false,
-            onStart = onStart,
-            onPause = {},
-            startLabel = startLabel,
-            pauseLabel = startLabel,
-            isEnabled = isStartEnabled,
-            modifier = Modifier.weight(1f)
         )
     }
 }
