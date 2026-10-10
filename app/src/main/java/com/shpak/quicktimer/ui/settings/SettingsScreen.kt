@@ -1,9 +1,11 @@
 package com.shpak.quicktimer.ui.settings
 
 import android.content.res.Configuration
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Stop
-import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -33,11 +35,13 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -236,43 +240,37 @@ private fun SoundRow(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(min = SoundRowMinHeight)
             .clip(SoundRowShape)
             .background(containerColor)
-            .padding(
-                end = SoundListSpacing
+            .selectable(
+                selected = isSelected,
+                role = Role.RadioButton,
+                onClick = {
+                    if (!isSelected) {
+                        haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                    }
+                    onSelect()
+                }
             )
+            .padding(start = 16.dp, end = SoundListSpacing)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
+        RadioButton(
+            selected = isSelected,
+            onClick = null
+        )
+
+        Text(
+            text = stringResource(sound.labelId),
+            style = MaterialTheme.typography.bodyLarge,
+            color = contentColor,
             modifier = Modifier
                 .weight(1f)
-                .heightIn(min = SoundRowMinHeight)
-                .selectable(
-                    selected = isSelected,
-                    role = Role.RadioButton,
-                    onClick = {
-                        if (!isSelected) {
-                            haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                        }
-                        onSelect()
-                    }
-                )
-                .padding(start = 16.dp, top = 12.dp, end = 8.dp, bottom = 12.dp)
-        ) {
-            RadioButton(
-                selected = isSelected,
-                onClick = null
-            )
-
-            Text(
-                text = stringResource(sound.labelId),
-                style = MaterialTheme.typography.bodyLarge,
-                color = contentColor
-            )
-        }
+                .padding(vertical = 12.dp)
+        )
 
         SoundPreviewButton(
             isPreviewing = isPreviewing,
@@ -288,33 +286,67 @@ private fun SoundPreviewButton(
 ) {
     val haptics = LocalHapticFeedback.current
     val colorScheme = MaterialTheme.colorScheme
-
-    FilledIconToggleButton(
-        checked = isPreviewing,
-        onCheckedChange = { isChecked ->
-            haptics.performHapticFeedback(
-                if (isChecked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
-            )
-            onToggle()
+    val colorSpec = MaterialTheme.motionScheme.fastEffectsSpec<Color>()
+    val containerColor by animateColorAsState(
+        targetValue = if (isPreviewing) {
+            colorScheme.primary
+        } else {
+            colorScheme.primary.copy(alpha = 0f)
         },
-        shape = CircleShape,
-        colors = IconButtonDefaults.filledIconToggleButtonColors(
-            containerColor = Color.Transparent,
-            contentColor = colorScheme.onSurfaceVariant,
-            checkedContainerColor = colorScheme.primary,
-            checkedContentColor = colorScheme.onPrimary
-        ),
-        modifier = Modifier.size(SoundPreviewButtonSize)
+        animationSpec = colorSpec,
+        label = "soundPreviewContainer"
+    )
+    val contentColor by animateColorAsState(
+        targetValue = if (isPreviewing) {
+            colorScheme.onPrimary
+        } else {
+            colorScheme.onSurfaceVariant
+        },
+        animationSpec = colorSpec,
+        label = "soundPreviewContent"
+    )
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(SoundPreviewButtonSize)
+            .clip(CircleShape)
+            .drawBehind {
+                drawRect(containerColor)
+            }
+            .toggleable(
+                value = isPreviewing,
+                role = Role.Checkbox,
+                interactionSource = null,
+                indication = ripple(
+                    bounded = true,
+                    radius = SoundPreviewButtonSize / 2,
+                    color = contentColor
+                ),
+                onValueChange = { isChecked ->
+                    haptics.performHapticFeedback(
+                        if (isChecked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+                    )
+                    onToggle()
+                }
+            )
     ) {
-        Icon(
-            imageVector = if (isPreviewing) {
-                Icons.Rounded.Stop
-            } else {
-                Icons.Rounded.PlayArrow
-            },
-            contentDescription = null,
-            modifier = Modifier.size(20.dp)
-        )
+        Crossfade(
+            targetState = isPreviewing,
+            animationSpec = MaterialTheme.motionScheme.fastEffectsSpec(),
+            label = "soundPreviewIcon"
+        ) { isPlaying ->
+            Icon(
+                imageVector = if (isPlaying) {
+                    Icons.Rounded.Stop
+                } else {
+                    Icons.Rounded.PlayArrow
+                },
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(20.dp)
+            )
+        }
     }
 }
 

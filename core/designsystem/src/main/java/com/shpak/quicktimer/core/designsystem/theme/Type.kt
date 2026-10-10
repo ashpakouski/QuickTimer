@@ -59,6 +59,8 @@ private fun numeralText(
     weight: FontWeight = FontWeight.Normal,
     tracking: TextUnit = 0.sp,
 ) = uiText(size, lineHeight, weight, tracking).copy(
+    // Relative, so line height follows font size when auto-sized
+    lineHeight = (lineHeight.toFloat() / size).em,
     fontFeatureSettings = "'tnum' 1, 'lnum' 1",
     textDirection = TextDirection.Ltr,
 )

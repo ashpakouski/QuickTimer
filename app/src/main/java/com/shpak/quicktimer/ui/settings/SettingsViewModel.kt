@@ -7,6 +7,8 @@ import com.shpak.quicktimer.domain.alarm.AlarmSettings
 import com.shpak.quicktimer.domain.alarm.AlarmSettingsRepository
 import com.shpak.quicktimer.domain.alarm.AlarmSound
 import com.shpak.quicktimer.domain.alarm.SoundPreviewPlayer
+import com.shpak.quicktimer.domain.analytics.AnalyticsEvent
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val alarmSettings: AlarmSettingsRepository = Hub.get<AlarmSettingsRepository>(),
-    private val previewPlayer: SoundPreviewPlayer = Hub.get<SoundPreviewPlayer>()
+    private val previewPlayer: SoundPreviewPlayer = Hub.get<SoundPreviewPlayer>(),
+    private val analytics: AnalyticsLogger = Hub.get<AnalyticsLogger>()
 ) : ViewModel() {
     private val _previewingSound = MutableStateFlow<AlarmSound?>(null)
 
@@ -32,6 +35,8 @@ class SettingsViewModel(
     )
 
     fun onSoundSelect(sound: AlarmSound) {
+        analytics.log(AnalyticsEvent.AlarmSoundSelect(sound))
+
         viewModelScope.launch {
             alarmSettings.setSound(sound)
         }
@@ -46,6 +51,7 @@ class SettingsViewModel(
         }
 
         _previewingSound.value = sound
+        analytics.log(AnalyticsEvent.AlarmSoundPreview(sound))
 
         previewPlayer.play(sound) {
             _previewingSound.value = null

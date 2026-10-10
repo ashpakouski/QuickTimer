@@ -3,6 +3,8 @@ package com.shpak.quicktimer.ui.timer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shpak.quicktimer.di.Hub
+import com.shpak.quicktimer.domain.analytics.AnalyticsEvent
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import com.shpak.quicktimer.domain.notification.NotificationPermission
 import com.shpak.timer.android.AndroidTimerClock
 import com.shpak.timer.core.Countdown
@@ -21,7 +23,8 @@ import kotlinx.coroutines.flow.update
 
 class TimerViewModel(
     private val timerStore: TimerStore = Hub.get<TimerStore>(),
-    private val notificationPermission: NotificationPermission = Hub.get<NotificationPermission>()
+    private val notificationPermission: NotificationPermission = Hub.get<NotificationPermission>(),
+    private val analytics: AnalyticsLogger = Hub.get<AnalyticsLogger>()
 ) : ViewModel() {
     private val _setup = MutableStateFlow(TimerSetup())
     private val _isNotificationRationaleVisible = MutableStateFlow(false)
@@ -49,7 +52,7 @@ class TimerViewModel(
 
     fun onStart() {
         if (!notificationPermission.isGranted()) {
-            _isNotificationRationaleVisible.value = true
+            showNotificationRationale()
             return
         }
 
@@ -65,11 +68,16 @@ class TimerViewModel(
 
     fun onEvent(event: TimerEvent) {
         if (event is TimerEvent.Resume && !notificationPermission.isGranted()) {
-            _isNotificationRationaleVisible.value = true
+            showNotificationRationale()
             return
         }
 
         timerStore.dispatch(event)
+    }
+
+    private fun showNotificationRationale() {
+        _isNotificationRationaleVisible.value = true
+        analytics.log(AnalyticsEvent.NotificationRationaleShow)
     }
 
     fun onNotificationRationaleConfirm() {

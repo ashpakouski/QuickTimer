@@ -1,7 +1,12 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -20,8 +25,31 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("gplay") {
+            dimension = "distribution"
+        }
+
+        // No Firebase, no INTERNET permission
+        create("foss") {
+            dimension = "distribution"
+
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+                nativeSymbolUploadEnabled = false
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            manifestPlaceholders["isFirebaseLoggingEnabled"] = false
+        }
+
         release {
+            manifestPlaceholders["isFirebaseLoggingEnabled"] = true
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -50,6 +78,10 @@ android {
     }
 }
 
+googleServices {
+    missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
+}
+
 dependencies {
     implementation(project(":timer:android"))
     implementation(project(":core:designsystem"))
@@ -73,6 +105,10 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.datastore.preferences)
+
+    "gplayImplementation"(platform(libs.firebase.bom))
+    "gplayImplementation"(libs.firebase.analytics)
+    "gplayImplementation"(libs.firebase.crashlytics)
     // implementation(libs.androidx.lifecycle.service)
 
     testImplementation(platform(libs.junit.bom))

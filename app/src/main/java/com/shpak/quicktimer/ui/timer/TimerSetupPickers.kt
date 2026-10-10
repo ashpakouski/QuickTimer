@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.shpak.quicktimer.R
 import com.shpak.quicktimer.core.designsystem.component.NumberPicker
@@ -80,7 +81,9 @@ private fun TimeUnitPicker(
         Text(
             text = label,
             style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         NumberPicker(
             value = value,

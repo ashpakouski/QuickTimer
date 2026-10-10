@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -221,6 +222,7 @@ fun NumberPicker(
                         color = colors.contentColor,
                         style = TimerTextStyles.wheelUnselected,
                         maxLines = 1,
+                        autoSize = WheelTextAutoSize,
                         modifier = Modifier.graphicsLayer {
                             alpha = 1f - selectedTextAlphaForDistance(
                                 state.distanceFromCenter(index, rowHeightPx)
@@ -232,6 +234,7 @@ fun NumberPicker(
                         color = colors.selectedContentColor,
                         style = TimerTextStyles.wheelSelected,
                         maxLines = 1,
+                        autoSize = WheelTextAutoSize,
                         modifier = Modifier.graphicsLayer {
                             alpha = selectedTextAlphaForDistance(
                                 state.distanceFromCenter(index, rowHeightPx)
@@ -285,6 +288,11 @@ private fun selectedTextAlphaForDistance(distance: Float): Float = (1f - distanc
 
 private val AdjacentRowScale = 33f / TimerTextStyles.wheelSelected.fontSize.value
 private val OuterRowScale = 31f / TimerTextStyles.wheelSelected.fontSize.value
+
+// Shrinks numerals that would overflow their row at large font scales.
+private val WheelTextAutoSize = TextAutoSize.StepBased(
+    maxFontSize = TimerTextStyles.wheelSelected.fontSize
+)
 
 @Immutable
 data class NumberPickerColors(

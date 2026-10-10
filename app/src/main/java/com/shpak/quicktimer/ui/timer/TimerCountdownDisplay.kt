@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +29,12 @@ import com.shpak.timer.core.TimerState
 
 private const val ProgressTickMillis = 100
 private val RingStrokeWidth = 8.dp
+private val RemainingTimeHorizontalPadding = 24.dp
+
+// Shrinks the countdown that would overflow the ring at large font scales.
+private val CountdownTextAutoSize = TextAutoSize.StepBased(
+    maxFontSize = TimerTextStyles.countdown.fontSize
+)
 
 @Composable
 internal fun TimerCountdownDisplay(
@@ -77,12 +85,15 @@ private fun ProgressRing(countdown: Countdown, totalMillis: Long) {
 private fun RemainingTime(countdown: Countdown) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.padding(horizontal = RemainingTimeHorizontalPadding)
     ) {
         Text(
             text = countdown.remainingMillis.toTimerDisplay(),
             style = TimerTextStyles.countdown,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            autoSize = CountdownTextAutoSize
         )
 
         if (countdown.state is TimerState.Ringing) {

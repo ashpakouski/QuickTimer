@@ -5,12 +5,19 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.widget.Toast
 import com.shpak.quicktimer.R
+import com.shpak.quicktimer.di.Hub
+import com.shpak.quicktimer.domain.analytics.AnalyticsEvent
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import com.shpak.quicktimer.util.areNotificationsEnabled
+import com.shpak.timer.core.TimerStore
 
 class TimerTileViewController : TileService() {
 
     private var permissionRequestDialog: Dialog? = null
     private var timerSettingsDialog: Dialog? = null
+
+    private val analytics by lazy { Hub.get<AnalyticsLogger>() }
+    private val timerStore by lazy { Hub.get<TimerStore>() }
 
     override fun onTileAdded() {
         super.onTileAdded()
@@ -27,6 +34,8 @@ class TimerTileViewController : TileService() {
     override fun onClick() {
         super.onClick()
 
+        analytics.log(AnalyticsEvent.TileClick(timerStore.state.value))
+
         try {
             if (areNotificationsEnabled(applicationContext)) {
                 showTimerSettingsDialog()
@@ -34,6 +43,7 @@ class TimerTileViewController : TileService() {
                 requestNotificationsPermission()
             }
         } catch (e: Exception) {
+            analytics.logException(e)
             Toast.makeText(
                 applicationContext, R.string.error_cant_show_dialog, Toast.LENGTH_SHORT
             ).show()

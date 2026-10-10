@@ -3,11 +3,14 @@ package com.shpak.quicktimer
 import android.app.Application
 import com.shpak.quicktimer.data.alarm.DefaultAlarmSettingsRepository
 import com.shpak.quicktimer.data.alarm.MediaPlayerAlarmPlayer
+import com.shpak.quicktimer.data.analytics.AnalyticsLoggerFactory
+import com.shpak.quicktimer.data.analytics.LoggingTimerStore
 import com.shpak.quicktimer.data.notification.AndroidNotificationPermission
 import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.domain.alarm.AlarmPlayer
 import com.shpak.quicktimer.domain.alarm.AlarmSettingsRepository
 import com.shpak.quicktimer.domain.alarm.SoundPreviewPlayer
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import com.shpak.quicktimer.domain.notification.NotificationPermission
 import com.shpak.quicktimer.presentation.TimerService
 import com.shpak.timer.android.AndroidTimerClock
@@ -23,13 +26,18 @@ import kotlinx.coroutines.MainScope
 class QuickTimerApp : Application(), TimerStoreOwner {
     private val applicationScope = MainScope()
 
+    private val analytics: AnalyticsLogger by lazy {
+        AnalyticsLoggerFactory.create(this)
+    }
+
     override val timerStore: TimerStore by lazy {
-        DefaultTimerStore(AndroidTimerClock)
+        LoggingTimerStore(DefaultTimerStore(AndroidTimerClock), analytics)
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        Hub.addLazyInstance<AnalyticsLogger>(::analytics)
         Hub.addLazyInstance<TimerStore>(::timerStore)
         Hub.addLazyInstance<AlarmSettingsRepository> { DefaultAlarmSettingsRepository(this) }
         Hub.addFactory<AlarmPlayer> { MediaPlayerAlarmPlayer(this) }

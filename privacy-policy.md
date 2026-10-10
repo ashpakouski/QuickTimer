@@ -3,6 +3,10 @@
 ### Data collection
 Quick Timer does not collect, use or store any personal data from its users.
 
+The Google Play version of Quick Timer uses Firebase Analytics and Firebase Crashlytics to log anonymous app events (for example, which timer actions are used) and crash reports. These logs are used only to improve the app's stability and features.
+
+The open source version of Quick Timer (for example, from IzzyOnDroid or built from source) contains no analytics or crash reporting and does not request internet access. No logs leave your device.
+
 ### Permissions used by the app
 
 To function effectively, Quick Timer requires the following permissions on your Android device:
