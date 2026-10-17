@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">Таймер</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">Включите уведомления</string>
+    <string name="notification_permission_message">Quick Timer нужны уведомления, чтобы сообщить об окончании отсчёта. Включите их, затем нажмите ещё раз, чтобы продолжить.</string>
+    <string name="notification_permission_button_not_now">Не сейчас</string>
+    <string name="notification_permission_button_allow">Разрешить</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">Настроить таймер</string>
+    <string name="timer_settings_label_seconds">Секунды</string>
+    <string name="timer_settings_label_minutes">Минуты</string>
+    <string name="timer_settings_label_hours">Часы</string>
+    <string name="timer_settings_button_start">Начать</string>
+    <string name="timer_settings_keeper_message">Ожидание настройки таймера…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">Начать</string>
+    <string name="timer_button_pause">Пауза</string>
+    <string name="timer_button_resume">Продолжить</string>
+    <string name="timer_button_dismiss">Выключить</string>
+    <string name="timer_button_add_minute">+1 мин</string>
+    <string name="timer_button_cancel">Отмена</string>
+    <string name="timer_time_up">Время вышло</string>
+    <string name="timer_button_picture_in_picture">Картинка в картинке</string>
+    <!--  Settings  -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_section_sound">Звук</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">Двойной сигнал</string>
+    <string name="sound_chime">Перезвон</string>
+    <string name="sound_marimba">Маримба</string>
+    <string name="sound_bell">Колокол</string>
+    <string name="sound_digital">Цифровой</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Уведомления Quick Timer</string>
+    <string name="notification_button_cancel">Отмена</string>
+    <string name="notification_button_pause">Пауза</string>
+    <string name="notification_button_resume">Продолжить</string>
+    <string name="notification_button_dismiss">Выключить</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">Низкая громкость будильника. Вы можете не услышать сигнал.</string>
+    <string name="error_timer_is_already_running">Отмените работающий таймер, прежде чем запускать новый.</string>
+    <string name="error_cant_show_dialog">Что-то пошло не так. Повторите попытку чуть позже.</string>
+    <string name="error_cant_start_timer_service">Не удалось запустить таймер. Повторите попытку чуть позже.</string>
+</resources>

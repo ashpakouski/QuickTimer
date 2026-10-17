@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">タイマー</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">通知をオンにする</string>
+    <string name="notification_permission_message">Quick Timerが時間の終了をお知らせするには、通知をオンにする必要があります。オンにしてから、もう一度タップして続けてください。</string>
+    <string name="notification_permission_button_not_now">後で</string>
+    <string name="notification_permission_button_allow">許可</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">タイマーを設定</string>
+    <string name="timer_settings_label_seconds">秒</string>
+    <string name="timer_settings_label_minutes">分</string>
+    <string name="timer_settings_label_hours">時間</string>
+    <string name="timer_settings_button_start">開始</string>
+    <string name="timer_settings_keeper_message">タイマーの設定を待っています…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">開始</string>
+    <string name="timer_button_pause">一時停止</string>
+    <string name="timer_button_resume">再開</string>
+    <string name="timer_button_dismiss">停止</string>
+    <string name="timer_button_add_minute">+1分</string>
+    <string name="timer_button_cancel">キャンセル</string>
+    <string name="timer_time_up">時間になりました</string>
+    <string name="timer_button_picture_in_picture">ピクチャー イン ピクチャー</string>
+    <!--  Settings  -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_sound">サウンド</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">ダブルビープ</string>
+    <string name="sound_chime">チャイム</string>
+    <string name="sound_marimba">マリンバ</string>
+    <string name="sound_bell">ベル</string>
+    <string name="sound_digital">デジタル</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Quick Timerの通知</string>
+    <string name="notification_button_cancel">キャンセル</string>
+    <string name="notification_button_pause">一時停止</string>
+    <string name="notification_button_resume">再開</string>
+    <string name="notification_button_dismiss">停止</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">アラームの音量が小さくなっています。聞こえない場合があります。</string>
+    <string name="error_timer_is_already_running">新しいタイマーを開始する前に、実行中のタイマーをキャンセルしてください。</string>
+    <string name="error_cant_show_dialog">問題が発生しました。しばらくしてからもう一度お試しください。</string>
+    <string name="error_cant_start_timer_service">タイマーを開始できませんでした。しばらくしてからもう一度お試しください。</string>
+</resources>

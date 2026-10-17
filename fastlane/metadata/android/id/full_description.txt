@@ -1,0 +1,23 @@
+<p><b>Quick Timer membuat timer hitung mundur mudah dijangkau.</b> Mulai timer dari Setelan Cepat, lalu lihat sisa waktu, jeda, lanjutkan, atau batalkan lewat notifikasi saat menggunakan aplikasi lain.</p>
+<p>Gunakan sebagai timer memasak, atur waktu menyeduh teh atau kopi, ambil istirahat singkat, atau atur sesi belajar. Buka aplikasi untuk melihat hitung mundur yang besar dan jelas, lalu tambahkan satu menit saat perlu waktu lebih lama.</p>
+<p><b>Timer sederhana untuk kegiatan sehari-hari</b></p>
+<ul>
+<li>Mulai dari aplikasi atau tombol Timer di Setelan Cepat.</li>
+<li>Atur jam, menit, dan detik dengan umpan balik haptik.</li>
+<li>Lihat hitung mundur, jeda, lanjutkan, atau batalkan lewat notifikasi.</li>
+<li>Tambahkan satu menit dari layar timer.</li>
+<li>Pilih dari lima suara alarm bawaan.</li>
+<li>Lihat peringatan volume alarm rendah saat mengatur timer dari tombol Timer.</li>
+<li>Gunakan tema terang atau gelap sesuai setelan ponsel.</li>
+<li>Tanpa iklan dan tidak perlu akun.</li>
+</ul>
+<p><b>Tambahkan tombol Timer</b></p>
+<ol>
+<li>Geser ke bawah untuk membuka Setelan Cepat.</li>
+<li>Ketuk Edit atau ikon pensil.</li>
+<li>Pindahkan tombol Timer ke bagian tombol aktif.</li>
+<li>Ketuk Timer, izinkan notifikasi saat diminta, pilih durasi, lalu mulai.</li>
+</ol>
+<p>Cara mengedit tombol berbeda-beda di setiap ponsel. Anda juga dapat membuka Quick Timer dari layar utama untuk memulai dan mengontrol timer.</p>
+<p>Quick Timer menjalankan satu timer dalam satu waktu.</p>
+<p>Sumber terbuka dengan lisensi MIT: github.com/ashpakouski/QuickTimer</p>

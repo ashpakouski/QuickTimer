@@ -1,0 +1,23 @@
+<p><b>Quick Timer deixa sua contagem regressiva sempre à mão.</b> Inicie um temporizador pelas Configurações rápidas e acompanhe, pause, retome ou cancele a contagem pela notificação enquanto usa outros apps.</p>
+<p>Use como temporizador de cozinha, conte o tempo do chá ou café, faça uma pausa curta ou organize uma sessão de estudo. Abra o app para ver a contagem regressiva em destaque e adicione um minuto quando precisar de mais tempo.</p>
+<p><b>Um temporizador simples para o dia a dia</b></p>
+<ul>
+<li>Inicie pelo app ou pelo bloco nas Configurações rápidas.</li>
+<li>Ajuste horas, minutos e segundos com resposta tátil.</li>
+<li>Acompanhe a contagem e pause, retome ou cancele pela notificação.</li>
+<li>Adicione um minuto pela tela do temporizador.</li>
+<li>Escolha entre cinco sons de alarme integrados.</li>
+<li>Veja um aviso de volume baixo do alarme ao configurar o temporizador pelo bloco.</li>
+<li>Use o tema claro ou escuro conforme a configuração do celular.</li>
+<li>Sem anúncios e sem necessidade de conta.</li>
+</ul>
+<p><b>Adicione o bloco Temporizador</b></p>
+<ol>
+<li>Deslize de cima para baixo para abrir as Configurações rápidas.</li>
+<li>Toque em Editar ou no ícone de lápis.</li>
+<li>Mova o bloco Temporizador para a área de blocos ativos.</li>
+<li>Toque em Temporizador, permita as notificações quando solicitado, escolha a duração e inicie.</li>
+</ol>
+<p>A edição dos blocos varia conforme o celular. Você também pode abrir Quick Timer pela tela inicial para iniciar e controlar um temporizador.</p>
+<p>Quick Timer executa uma contagem regressiva por vez.</p>
+<p>Código aberto sob a licença MIT: github.com/ashpakouski/QuickTimer</p>

@@ -1,1 +1,1 @@
-Quick Timer: Countdown Tile
+Quick Timer: Simple Countdown

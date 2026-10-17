@@ -1,0 +1,1 @@
+Timer hitung mundur di Setelan Cepat, dengan kontrol lewat notifikasi.

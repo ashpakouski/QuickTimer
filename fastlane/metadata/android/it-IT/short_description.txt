@@ -1,0 +1,1 @@
+Timer nelle impostazioni rapide, con comandi direttamente nella notifica.

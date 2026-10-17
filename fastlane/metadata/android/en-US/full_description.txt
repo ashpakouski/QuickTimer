@@ -1,1 +1,23 @@
-<p><b>Quick Timer</b> puts a countdown timer right in your Quick Settings. Swipe down, tap the Timer tile, pick the time and press Start. No need to unlock a clock app or dig through menus.</p><p>The remaining time stays in your notification, so you can pause, resume or cancel the timer with one tap from any screen. When time is up, Quick Timer rings with the alarm sound you choose.</p><p><b>Great for</b></p><ul><li>Cooking and baking: a kitchen timer that is always one swipe away</li><li>Brewing tea or coffee</li><li>Workouts, planks, stretching and rest between sets</li><li>Focus sessions and Pomodoro-style breaks</li><li>Naps, laundry, parking and screen time limits</li></ul><p><b>Features</b></p><ul><li>Quick Settings tile: start a timer in seconds from anywhere</li><li>Hours, minutes and seconds pickers with haptic feedback</li><li>Live countdown in the notification with Pause, Resume and Cancel buttons</li><li>Full timer screen with a +1 min button when you need a bit more time</li><li>Five alarm sounds: Double ping, Chime, Marimba, Bell and Digital</li><li>Warning when your alarm volume is too low to hear</li><li>Light and dark theme</li><li>No ads, lightweight and open source</li></ul><p><b>How to add the tile</b></p><ol><li>Swipe down from the top of the screen to open Quick Settings.</li><li>Tap the pencil icon or "Edit".</li><li>Drag the "Timer" tile into your active tiles.</li><li>Tap the tile, allow notifications if asked, set the time and press Start.</li></ol><p>Prefer a regular app? Open Quick Timer from your home screen for the full timer screen and settings.</p><p>Quick Timer is open source under the MIT license: github.com/ashpakouski/QuickTimer</p>
+<p><b>Quick Timer keeps your countdown within reach.</b> Start a timer from Quick Settings, then check, pause, resume or cancel it from the notification while using other apps.</p>
+<p>Use it as a kitchen timer while cooking, time your tea or coffee, take a short break, or set a study session. Open the app for a large, clear countdown and add a minute when you need more time.</p>
+<p><b>Simple everyday timing</b></p>
+<ul>
+<li>Start from the app or your Quick Settings tile.</li>
+<li>Set hours, minutes and seconds with haptic feedback.</li>
+<li>See the countdown and pause, resume or cancel from the notification.</li>
+<li>Add one minute from the timer screen.</li>
+<li>Choose from five built-in alarm sounds.</li>
+<li>See a low alarm volume warning when setting a timer from the tile.</li>
+<li>Use a light or dark theme that follows your phone.</li>
+<li>No ads or account required.</li>
+</ul>
+<p><b>Add the Timer tile</b></p>
+<ol>
+<li>Swipe down to open Quick Settings.</li>
+<li>Tap Edit or the pencil icon.</li>
+<li>Move the Timer tile into your active tiles.</li>
+<li>Tap Timer, allow notifications when asked, choose a duration and start.</li>
+</ol>
+<p>Tile editing varies by phone. You can also open Quick Timer from your home screen to start and control a timer.</p>
+<p>Quick Timer runs one countdown at a time.</p>
+<p>Open source under the MIT license: github.com/ashpakouski/QuickTimer</p>

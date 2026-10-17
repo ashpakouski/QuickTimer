@@ -1,0 +1,23 @@
+<p><b>Quick Timer tiene il conto alla rovescia a portata di mano.</b> Avvia un timer dalle impostazioni rapide, poi controlla il tempo rimanente, metti in pausa, riprendi o annulla dalla notifica mentre usi altre app.</p>
+<p>Usalo come timer da cucina, per il tè o il caffè, una breve pausa o una sessione di studio. Apri l'app per un conto alla rovescia grande e leggibile e aggiungi un minuto quando hai bisogno di più tempo.</p>
+<p><b>Un timer semplice per tutti i giorni</b></p>
+<ul>
+<li>Avvia dall'app o dal riquadro Timer nelle impostazioni rapide.</li>
+<li>Imposta ore, minuti e secondi con feedback aptico.</li>
+<li>Controlla il conto alla rovescia e metti in pausa, riprendi o annulla dalla notifica.</li>
+<li>Aggiungi un minuto dalla schermata del timer.</li>
+<li>Scegli tra cinque suoni di allarme integrati.</li>
+<li>Ricevi un avviso se il volume della sveglia è basso quando imposti il timer dal riquadro.</li>
+<li>Il tema chiaro o scuro segue le impostazioni del telefono.</li>
+<li>Senza pubblicità e senza bisogno di un account.</li>
+</ul>
+<p><b>Aggiungi il riquadro Timer</b></p>
+<ol>
+<li>Scorri verso il basso per aprire le impostazioni rapide.</li>
+<li>Tocca Modifica o l'icona della matita.</li>
+<li>Sposta il riquadro Timer nell'area dei riquadri attivi.</li>
+<li>Tocca Timer, consenti le notifiche quando richiesto, scegli una durata e avvia.</li>
+</ol>
+<p>La modifica dei riquadri varia in base al telefono. Puoi anche aprire Quick Timer dalla schermata Home per avviare e controllare un timer.</p>
+<p>Quick Timer esegue un conto alla rovescia alla volta.</p>
+<p>Codice sorgente aperto con licenza MIT: github.com/ashpakouski/QuickTimer</p>

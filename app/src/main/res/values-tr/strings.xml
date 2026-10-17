@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">Zamanlayıcı</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">Bildirimleri aç</string>
+    <string name="notification_permission_message">Quick Timer, süre dolduğunda sizi uyarmak için bildirimlere ihtiyaç duyar. Bildirimleri açın, ardından devam etmek için tekrar dokunun.</string>
+    <string name="notification_permission_button_not_now">Şimdi değil</string>
+    <string name="notification_permission_button_allow">İzin ver</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">Zamanlayıcıyı ayarla</string>
+    <string name="timer_settings_label_seconds">Saniye</string>
+    <string name="timer_settings_label_minutes">Dakika</string>
+    <string name="timer_settings_label_hours">Saat</string>
+    <string name="timer_settings_button_start">Başlat</string>
+    <string name="timer_settings_keeper_message">Zamanlayıcının ayarlanması bekleniyor…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">Başlat</string>
+    <string name="timer_button_pause">Duraklat</string>
+    <string name="timer_button_resume">Sürdür</string>
+    <string name="timer_button_dismiss">Kapat</string>
+    <string name="timer_button_add_minute">+1 dk</string>
+    <string name="timer_button_cancel">İptal</string>
+    <string name="timer_time_up">Süre doldu</string>
+    <string name="timer_button_picture_in_picture">Resim içinde resim</string>
+    <!--  Settings  -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_section_sound">Ses</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">Çift bip</string>
+    <string name="sound_chime">Çan sesi</string>
+    <string name="sound_marimba">Marimba</string>
+    <string name="sound_bell">Zil</string>
+    <string name="sound_digital">Dijital</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Quick Timer bildirimleri</string>
+    <string name="notification_button_cancel">İptal</string>
+    <string name="notification_button_pause">Duraklat</string>
+    <string name="notification_button_resume">Sürdür</string>
+    <string name="notification_button_dismiss">Kapat</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">Alarm sesi düşük. Alarmı duymayabilirsiniz.</string>
+    <string name="error_timer_is_already_running">Yeni bir zamanlayıcı başlatmadan önce çalışan zamanlayıcıyı iptal edin.</string>
+    <string name="error_cant_show_dialog">Bir sorun oluştu. Lütfen biraz sonra tekrar deneyin.</string>
+    <string name="error_cant_start_timer_service">Zamanlayıcı başlatılamadı. Lütfen biraz sonra tekrar deneyin.</string>
+</resources>

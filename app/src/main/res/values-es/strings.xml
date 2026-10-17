@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">Temporizador</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">Activar notificaciones</string>
+    <string name="notification_permission_message">Quick Timer necesita notificaciones para avisarte cuando se acabe el tiempo. Actívalas y vuelve a tocar para continuar.</string>
+    <string name="notification_permission_button_not_now">Ahora no</string>
+    <string name="notification_permission_button_allow">Permitir</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">Configurar temporizador</string>
+    <string name="timer_settings_label_seconds">Segundos</string>
+    <string name="timer_settings_label_minutes">Minutos</string>
+    <string name="timer_settings_label_hours">Horas</string>
+    <string name="timer_settings_button_start">Iniciar</string>
+    <string name="timer_settings_keeper_message">Esperando a que se configure el temporizador…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">Iniciar</string>
+    <string name="timer_button_pause">Pausar</string>
+    <string name="timer_button_resume">Reanudar</string>
+    <string name="timer_button_dismiss">Detener</string>
+    <string name="timer_button_add_minute">+1 min</string>
+    <string name="timer_button_cancel">Cancelar</string>
+    <string name="timer_time_up">Se acabó el tiempo</string>
+    <string name="timer_button_picture_in_picture">Imagen en imagen</string>
+    <!--  Settings  -->
+    <string name="settings_title">Configuración</string>
+    <string name="settings_section_sound">Sonido</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">Doble tono</string>
+    <string name="sound_chime">Campanilla</string>
+    <string name="sound_marimba">Marimba</string>
+    <string name="sound_bell">Campana</string>
+    <string name="sound_digital">Digital</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Notificaciones de Quick Timer</string>
+    <string name="notification_button_cancel">Cancelar</string>
+    <string name="notification_button_pause">Pausar</string>
+    <string name="notification_button_resume">Reanudar</string>
+    <string name="notification_button_dismiss">Detener</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">El volumen de la alarma está bajo. Es posible que no la escuches.</string>
+    <string name="error_timer_is_already_running">Cancela el temporizador en curso antes de iniciar otro.</string>
+    <string name="error_cant_show_dialog">Algo salió mal. Vuelve a intentarlo en un momento.</string>
+    <string name="error_cant_start_timer_service">No se pudo iniciar el temporizador. Vuelve a intentarlo en un momento.</string>
+</resources>

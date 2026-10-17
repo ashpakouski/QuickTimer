@@ -1,0 +1,1 @@
+Temporizador en la configuración rápida, con controles en la notificación.

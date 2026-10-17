@@ -1,0 +1,23 @@
+<p><b>Quick Timer mantiene tu cuenta regresiva al alcance.</b> Inicia un temporizador desde la configuración rápida y consulta, pausa, reanuda o cancela la cuenta desde la notificación mientras usas otras apps.</p>
+<p>Úsalo como temporizador de cocina, mide el tiempo del té o café, toma un descanso corto o programa una sesión de estudio. Abre la app para ver una cuenta regresiva grande y clara, y agrega un minuto cuando necesites más tiempo.</p>
+<p><b>Un temporizador sencillo para todos los días</b></p>
+<ul>
+<li>Inicia desde la app o el botón Temporizador de configuración rápida.</li>
+<li>Ajusta horas, minutos y segundos con respuesta háptica.</li>
+<li>Consulta la cuenta regresiva y pausa, reanuda o cancela desde la notificación.</li>
+<li>Agrega un minuto desde la pantalla del temporizador.</li>
+<li>Elige entre cinco sonidos de alarma incluidos.</li>
+<li>Recibe una advertencia de volumen bajo de la alarma al configurar el temporizador desde el botón.</li>
+<li>Usa el tema claro u oscuro según la configuración de tu teléfono.</li>
+<li>Sin anuncios ni necesidad de crear una cuenta.</li>
+</ul>
+<p><b>Agrega el botón Temporizador</b></p>
+<ol>
+<li>Desliza hacia abajo para abrir la configuración rápida.</li>
+<li>Toca Editar o el ícono del lápiz.</li>
+<li>Mueve el botón Temporizador a la zona de botones activos.</li>
+<li>Toca Temporizador, permite las notificaciones cuando se soliciten, elige una duración e inicia.</li>
+</ol>
+<p>La forma de editar los botones varía según el teléfono. También puedes abrir Quick Timer desde la pantalla principal para iniciar y controlar un temporizador.</p>
+<p>Quick Timer permite una cuenta regresiva a la vez.</p>
+<p>Código abierto bajo la licencia MIT: github.com/ashpakouski/QuickTimer</p>

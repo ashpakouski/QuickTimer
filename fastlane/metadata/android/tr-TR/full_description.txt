@@ -1,0 +1,23 @@
+<p><b>Quick Timer ile geri sayımınız her an elinizin altında.</b> Hızlı Ayarlar'dan bir zamanlayıcı başlatın. Diğer uygulamaları kullanırken bildirimden kalan süreyi görün, duraklatın, sürdürün veya iptal edin.</p>
+<p>Yemek pişirirken, çay veya kahve hazırlarken, kısa bir mola verirken ya da ders çalışırken kullanın. Büyük ve okunaklı bir geri sayım için uygulamayı açın, daha fazla süre gerektiğinde bir dakika ekleyin.</p>
+<p><b>Günlük kullanım için basit bir zamanlayıcı</b></p>
+<ul>
+<li>Uygulamadan veya Hızlı Ayarlar'daki Zamanlayıcı düğmesinden başlatın.</li>
+<li>Saat, dakika ve saniyeyi dokunsal geri bildirimle ayarlayın.</li>
+<li>Bildirimden geri sayımı görün, duraklatın, sürdürün veya iptal edin.</li>
+<li>Zamanlayıcı ekranından bir dakika ekleyin.</li>
+<li>Beş yerleşik alarm sesi arasından seçim yapın.</li>
+<li>Düğmeden zamanlayıcı ayarlarken alarm sesi düşükse uyarı alın.</li>
+<li>Telefonunuzun ayarlarına uygun açık veya koyu temayı kullanın.</li>
+<li>Reklam içermez ve hesap gerektirmez.</li>
+</ul>
+<p><b>Zamanlayıcı düğmesini ekleyin</b></p>
+<ol>
+<li>Hızlı Ayarlar'ı açmak için yukarıdan aşağı kaydırın.</li>
+<li>Düzenle'ye veya kalem simgesine dokunun.</li>
+<li>Zamanlayıcı düğmesini etkin düğmeler bölümüne taşıyın.</li>
+<li>Zamanlayıcı'ya dokunun, istendiğinde bildirimlere izin verin, süreyi seçin ve başlatın.</li>
+</ol>
+<p>Düğmeleri düzenleme yöntemi telefona göre değişebilir. Zamanlayıcı başlatmak ve kontrol etmek için Quick Timer'ı ana ekrandan da açabilirsiniz.</p>
+<p>Quick Timer aynı anda tek bir geri sayım çalıştırır.</p>
+<p>MIT lisansı altında açık kaynak: github.com/ashpakouski/QuickTimer</p>

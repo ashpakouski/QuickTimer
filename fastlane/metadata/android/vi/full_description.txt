@@ -1,0 +1,23 @@
+<p><b>Quick Timer giúp bạn dễ dàng theo dõi thời gian đếm ngược.</b> Bắt đầu hẹn giờ từ Cài đặt nhanh, rồi xem thời gian còn lại, tạm dừng, tiếp tục hoặc hủy ngay trong thông báo khi đang dùng ứng dụng khác.</p>
+<p>Dùng khi nấu ăn, pha trà hay cà phê, nghỉ ngắn hoặc học tập. Mở ứng dụng để xem đồng hồ đếm ngược lớn, rõ ràng và thêm một phút khi cần thêm thời gian.</p>
+<p><b>Hẹn giờ đơn giản cho mỗi ngày</b></p>
+<ul>
+<li>Bắt đầu từ ứng dụng hoặc nút Hẹn giờ trong Cài đặt nhanh.</li>
+<li>Đặt giờ, phút và giây với phản hồi rung.</li>
+<li>Xem thời gian đếm ngược, tạm dừng, tiếp tục hoặc hủy từ thông báo.</li>
+<li>Thêm một phút từ màn hình hẹn giờ.</li>
+<li>Chọn một trong năm âm báo tích hợp.</li>
+<li>Nhận cảnh báo âm lượng báo thức thấp khi đặt hẹn giờ từ nút Cài đặt nhanh.</li>
+<li>Dùng giao diện sáng hoặc tối theo cài đặt của điện thoại.</li>
+<li>Không quảng cáo, không cần tài khoản.</li>
+</ul>
+<p><b>Thêm nút Hẹn giờ</b></p>
+<ol>
+<li>Vuốt từ trên xuống để mở Cài đặt nhanh.</li>
+<li>Nhấn Chỉnh sửa hoặc biểu tượng bút chì.</li>
+<li>Chuyển nút Hẹn giờ vào vùng các nút đang sử dụng.</li>
+<li>Nhấn Hẹn giờ, cho phép thông báo khi được yêu cầu, chọn thời lượng rồi bắt đầu.</li>
+</ol>
+<p>Cách chỉnh sửa các nút có thể khác nhau tùy điện thoại. Bạn cũng có thể mở Quick Timer từ màn hình chính để bắt đầu và điều khiển hẹn giờ.</p>
+<p>Quick Timer chạy một bộ đếm ngược tại một thời điểm.</p>
+<p>Mã nguồn mở theo giấy phép MIT: github.com/ashpakouski/QuickTimer</p>

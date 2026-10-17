@@ -1,0 +1,23 @@
+<p><b>Mit Quick Timer ist dein Countdown immer griffbereit.</b> Starte einen Timer über die Schnelleinstellungen. Über die Benachrichtigung kannst du die Restzeit sehen und den Timer pausieren, fortsetzen oder abbrechen, während du andere Apps nutzt.</p>
+<p>Nutze ihn als Küchentimer, für Tee oder Kaffee, kurze Pausen oder eine Lerneinheit. Öffne die App für einen großen, gut lesbaren Countdown und füge bei Bedarf eine Minute hinzu.</p>
+<p><b>Ein einfacher Timer für den Alltag</b></p>
+<ul>
+<li>Starte über die App oder die Kachel in den Schnelleinstellungen.</li>
+<li>Stelle Stunden, Minuten und Sekunden mit haptischem Feedback ein.</li>
+<li>Sieh den Countdown in der Benachrichtigung und pausiere, setze fort oder brich ab.</li>
+<li>Füge auf dem Timer-Bildschirm eine Minute hinzu.</li>
+<li>Wähle zwischen fünf integrierten Alarmtönen.</li>
+<li>Beim Einstellen über die Kachel wirst du gewarnt, wenn die Alarmlautstärke niedrig ist.</li>
+<li>Nutze das helle oder dunkle Design passend zu deinen Telefoneinstellungen.</li>
+<li>Ohne Werbung und ohne Benutzerkonto.</li>
+</ul>
+<p><b>Timer-Kachel hinzufügen</b></p>
+<ol>
+<li>Wische nach unten, um die Schnelleinstellungen zu öffnen.</li>
+<li>Tippe auf Bearbeiten oder das Stiftsymbol.</li>
+<li>Verschiebe die Kachel Timer in den Bereich der aktiven Kacheln.</li>
+<li>Tippe auf Timer, erlaube bei Nachfrage Benachrichtigungen, wähle die Dauer und starte.</li>
+</ol>
+<p>Das Bearbeiten der Kacheln kann je nach Telefon unterschiedlich sein. Du kannst Quick Timer auch über den Startbildschirm öffnen, um einen Timer zu starten und zu steuern.</p>
+<p>Quick Timer führt jeweils einen Countdown aus.</p>
+<p>Open Source unter der MIT-Lizenz: github.com/ashpakouski/QuickTimer</p>

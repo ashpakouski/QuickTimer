@@ -1,0 +1,23 @@
+<p><b>Avec Quick Timer, votre compte à rebours reste à portée de main.</b> Lancez un minuteur depuis les paramètres rapides, puis consultez le temps restant, mettez en pause, reprenez ou annulez depuis la notification pendant que vous utilisez d'autres applications.</p>
+<p>Utilisez-le en cuisine, pour votre thé ou café, une courte pause ou une séance de révision. Ouvrez l'application pour afficher un grand compte à rebours bien lisible et ajoutez une minute si vous avez besoin de plus de temps.</p>
+<p><b>Un minuteur simple au quotidien</b></p>
+<ul>
+<li>Démarrez depuis l'application ou le bouton Minuteur des paramètres rapides.</li>
+<li>Réglez les heures, les minutes et les secondes avec un retour haptique.</li>
+<li>Consultez le compte à rebours et mettez en pause, reprenez ou annulez depuis la notification.</li>
+<li>Ajoutez une minute depuis l'écran du minuteur.</li>
+<li>Choisissez parmi cinq sons d'alarme intégrés.</li>
+<li>Un avertissement de volume d'alarme faible s'affiche lors du réglage depuis le bouton.</li>
+<li>Le thème clair ou sombre suit les paramètres de votre téléphone.</li>
+<li>Sans publicité ni compte à créer.</li>
+</ul>
+<p><b>Ajouter le bouton Minuteur</b></p>
+<ol>
+<li>Balayez vers le bas pour ouvrir les paramètres rapides.</li>
+<li>Appuyez sur Modifier ou sur l'icône en forme de crayon.</li>
+<li>Déplacez le bouton Minuteur dans la zone des boutons actifs.</li>
+<li>Appuyez sur Minuteur, autorisez les notifications si nécessaire, choisissez une durée et démarrez.</li>
+</ol>
+<p>La modification des boutons varie selon le téléphone. Vous pouvez aussi ouvrir Quick Timer depuis l'écran d'accueil pour démarrer et contrôler un minuteur.</p>
+<p>Quick Timer exécute un seul compte à rebours à la fois.</p>
+<p>Code source ouvert sous licence MIT : github.com/ashpakouski/QuickTimer</p>

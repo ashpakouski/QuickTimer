@@ -1,6 +1,6 @@
 <resources>
     <!--  Application  -->
-    <string name="app_name">Quick Timer</string>
+    <string name="app_name" translatable="false">Quick Timer</string>
     <string name="tile_label">Timer</string>
 
     <!--  Notification permission sheet  -->
@@ -25,6 +25,7 @@
     <string name="timer_button_add_minute">+1 min</string>
     <string name="timer_button_cancel">Cancel</string>
     <string name="timer_time_up">Time\'s up</string>
+    <string name="timer_button_picture_in_picture">Picture-in-picture</string>
 
     <!--  Settings  -->
     <string name="settings_title">Settings</string>

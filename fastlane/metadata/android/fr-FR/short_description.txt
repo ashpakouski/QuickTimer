@@ -1,0 +1,1 @@
+Un minuteur dans les paramètres rapides, à contrôler depuis la notification.

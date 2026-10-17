@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">Hẹn giờ</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">Bật thông báo</string>
+    <string name="notification_permission_message">Quick Timer cần thông báo để báo cho bạn khi hết giờ. Hãy bật thông báo rồi nhấn lại để tiếp tục.</string>
+    <string name="notification_permission_button_not_now">Để sau</string>
+    <string name="notification_permission_button_allow">Cho phép</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">Đặt hẹn giờ</string>
+    <string name="timer_settings_label_seconds">Giây</string>
+    <string name="timer_settings_label_minutes">Phút</string>
+    <string name="timer_settings_label_hours">Giờ</string>
+    <string name="timer_settings_button_start">Bắt đầu</string>
+    <string name="timer_settings_keeper_message">Đang chờ đặt hẹn giờ…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">Bắt đầu</string>
+    <string name="timer_button_pause">Tạm dừng</string>
+    <string name="timer_button_resume">Tiếp tục</string>
+    <string name="timer_button_dismiss">Tắt</string>
+    <string name="timer_button_add_minute">+1 phút</string>
+    <string name="timer_button_cancel">Hủy</string>
+    <string name="timer_time_up">Hết giờ</string>
+    <string name="timer_button_picture_in_picture">Hình trong hình</string>
+    <!--  Settings  -->
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_section_sound">Âm thanh</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">Bíp đôi</string>
+    <string name="sound_chime">Chuông ngân</string>
+    <string name="sound_marimba">Marimba</string>
+    <string name="sound_bell">Chuông</string>
+    <string name="sound_digital">Kỹ thuật số</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Thông báo Quick Timer</string>
+    <string name="notification_button_cancel">Hủy</string>
+    <string name="notification_button_pause">Tạm dừng</string>
+    <string name="notification_button_resume">Tiếp tục</string>
+    <string name="notification_button_dismiss">Tắt</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">Âm lượng báo thức thấp. Bạn có thể không nghe thấy chuông báo.</string>
+    <string name="error_timer_is_already_running">Hãy hủy bộ hẹn giờ đang chạy trước khi bắt đầu bộ hẹn giờ mới.</string>
+    <string name="error_cant_show_dialog">Đã xảy ra lỗi. Vui lòng thử lại sau giây lát.</string>
+    <string name="error_cant_start_timer_service">Không thể bắt đầu hẹn giờ. Vui lòng thử lại sau giây lát.</string>
+</resources>

@@ -1,0 +1,45 @@
+<resources>
+    <!--  Application  -->
+    <string name="tile_label">Minuteur</string>
+    <!--  Notification permission sheet  -->
+    <string name="notification_permission_title">Activer les notifications</string>
+    <string name="notification_permission_message">Quick Timer a besoin des notifications pour vous avertir quand le temps est écoulé. Activez-les, puis appuyez à nouveau pour continuer.</string>
+    <string name="notification_permission_button_not_now">Pas maintenant</string>
+    <string name="notification_permission_button_allow">Autoriser</string>
+    <!--  Timer settings dialog  -->
+    <string name="timer_settings_title">Régler le minuteur</string>
+    <string name="timer_settings_label_seconds">Secondes</string>
+    <string name="timer_settings_label_minutes">Minutes</string>
+    <string name="timer_settings_label_hours">Heures</string>
+    <string name="timer_settings_button_start">Démarrer</string>
+    <string name="timer_settings_keeper_message">En attente du réglage du minuteur…</string>
+    <!--  Timer screen  -->
+    <string name="timer_button_start">Démarrer</string>
+    <string name="timer_button_pause">Pause</string>
+    <string name="timer_button_resume">Reprendre</string>
+    <string name="timer_button_dismiss">Arrêter</string>
+    <string name="timer_button_add_minute">+1 min</string>
+    <string name="timer_button_cancel">Annuler</string>
+    <string name="timer_time_up">Temps écoulé</string>
+    <string name="timer_button_picture_in_picture">Image dans l\'image</string>
+    <!--  Settings  -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_section_sound">Son</string>
+    <!--  Alarm sounds  -->
+    <string name="sound_double_ping">Double bip</string>
+    <string name="sound_chime">Carillon</string>
+    <string name="sound_marimba">Marimba</string>
+    <string name="sound_bell">Cloche</string>
+    <string name="sound_digital">Numérique</string>
+    <!--  Notifications  -->
+    <string name="notification_channel_name">Notifications de Quick Timer</string>
+    <string name="notification_button_cancel">Annuler</string>
+    <string name="notification_button_pause">Pause</string>
+    <string name="notification_button_resume">Reprendre</string>
+    <string name="notification_button_dismiss">Arrêter</string>
+    <!--  Errors and Warnings  -->
+    <string name="warning_volume_low">Le volume de l\'alarme est faible. Vous risquez de ne pas l\'entendre.</string>
+    <string name="error_timer_is_already_running">Annulez le minuteur en cours avant d\'en démarrer un autre.</string>
+    <string name="error_cant_show_dialog">Une erreur s\'est produite. Réessayez dans un instant.</string>
+    <string name="error_cant_start_timer_service">Impossible de démarrer le minuteur. Réessayez dans un instant.</string>
+</resources>

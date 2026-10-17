@@ -1,1 +1,1 @@
-Countdown timer right in Quick Settings. Pause or stop it from the notification.
+A simple countdown timer in Quick Settings, with easy notification controls.
