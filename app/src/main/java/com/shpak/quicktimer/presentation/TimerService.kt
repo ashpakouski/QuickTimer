@@ -12,6 +12,8 @@ import com.shpak.quicktimer.R
 import com.shpak.quicktimer.di.Hub
 import com.shpak.quicktimer.domain.alarm.AlarmPlayer
 import com.shpak.quicktimer.domain.alarm.AlarmSettingsRepository
+import com.shpak.quicktimer.domain.analytics.AnalyticsEvent
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import com.shpak.quicktimer.util.lazyTryOrNull
 import com.shpak.quicktimer.util.toHhMmSs
 import com.shpak.timer.android.AndroidTimerClock
@@ -105,6 +107,12 @@ class TimerService : Service() {
         }
 
         return START_NOT_STICKY
+    }
+
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        Hub.get<AnalyticsLogger>().log(AnalyticsEvent.ServiceTimeout("TimerService", fgsType))
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     override fun onDestroy() {

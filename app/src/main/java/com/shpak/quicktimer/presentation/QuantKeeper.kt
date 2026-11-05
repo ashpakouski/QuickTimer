@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.shpak.quicktimer.R
+import com.shpak.quicktimer.di.Hub
+import com.shpak.quicktimer.domain.analytics.AnalyticsEvent
+import com.shpak.quicktimer.domain.analytics.AnalyticsLogger
 import com.shpak.quicktimer.util.lazyTryOrNull
 
 class QuantKeeper : Service() {
@@ -41,6 +44,12 @@ class QuantKeeper : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
+    }
+
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        Hub.get<AnalyticsLogger>().log(AnalyticsEvent.ServiceTimeout("QuantKeeper", fgsType))
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     override fun onCreate() {

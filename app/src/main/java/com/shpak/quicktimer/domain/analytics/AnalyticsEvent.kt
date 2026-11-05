@@ -40,6 +40,11 @@ sealed class AnalyticsEvent(
     )
 
     data object NotificationSettingsOpen : AnalyticsEvent("notification_settings_open")
+
+    class ServiceTimeout(serviceName: String, fgsType: Int) : AnalyticsEvent(
+        "service_timeout",
+        mapOf(AnalyticsParam.NAME to serviceName, AnalyticsParam.VALUE to fgsType)
+    )
 }
 
 private fun timerParams(state: TimerState, durationMillis: Long? = null): Map<AnalyticsParam, Any> =
